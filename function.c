@@ -1,4 +1,4 @@
-#include "functions.h"
+#include "function.h"
 #include <stdlib.h>
 #include <stdio.h>
 COLONNE* create_column(char * title)
