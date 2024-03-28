@@ -15,6 +15,7 @@ int insert_value(COLONNE* col, int val)
     }
     else {return 0;}
 }
+
 void supprimer_colonne(COLONNE *col)
 {
     int i;
