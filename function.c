@@ -15,11 +15,17 @@ int insert_value(COLONNE* col, int val)
     }
     else {return 0;}
 }
-void delete_column(COLONNE **ptr)
+
+void supprimer_colonne(COLONNE *col)
 {
-    free((*ptr)->donnees);
-    free(ptr);
+    int i;
+    for (i = col->tlog;i>0;i--){
+        free(col->donnees[i-1]);
+    }
+    free(col->donnees);
+    free(col);
 }
+
 void print_col(COLONNE *col)
 {
     int n=col->tlog;
