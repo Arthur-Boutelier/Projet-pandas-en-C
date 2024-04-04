@@ -1,19 +1,47 @@
 #include "function.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 COLONNE* create_column(char * title)
 {
     COLONNE col; COLONNE * ptr=NULL;
     col.titre=title; col.donnees=NULL; col.tlog=0; col.tmax=256; ptr=&col;
     return ptr;
 }
-int insert_value(COLONNE* col, int val)
+int inserer_valeur(COLONNE* col, void* val)
 {
-    if (col->tmax >col->tlog)
-    {
-        (col->donnees)[col->tlog]=val;(col->tlog)++; return 1;
+    if (col->tmax == col->tlog)
+        return 0;
+    switch (col->type){
+        case INT:
+            col->donnees[col->tlog] = (int*) malloc (sizeof(int));
+            *((int*)col->donnees[col->tlog])= *((int*)val);
+            break;
+        case CHAR:
+            col->donnees[col->tlog] = (char *) malloc (sizeof(char));
+            *((char *)col->donnees[col->tlog])= *((char *)val);
+            break;
+        case UINT:
+            col->donnees[col->tlog] = (unsigned int*) malloc (sizeof(unsigned int));
+            *((unsigned int*)col->donnees[col->tlog])= *((unsigned int*)val);
+            break;
+        case FLOAT:
+            col->donnees[col->tlog] = (float*) malloc (sizeof(float));
+            *((float*)col->donnees[col->tlog])= *((float *)val);
+            break;
+        case DOUBLE:
+            col->donnees[col->tlog] = (double *) malloc (sizeof(double));
+            *((double *)col->donnees[col->tlog])= *((double *)val);
+            break;
+        case STRING:
+            col->donnees[col->tlog] = (char*) malloc (sizeof(char)*strlen(val));
+            *((char*)col->donnees[col->tlog])= *((char*)val);
+            break;
+        case STRUCTURE:
+            return 1;
     }
-    else {return 0;}
+    col->tlog +=1;
+    return 1;
 }
 
 void supprimer_colonne(COLONNE *col)
