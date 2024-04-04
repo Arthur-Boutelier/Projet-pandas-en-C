@@ -35,7 +35,7 @@ typedef struct{
 
 
 COLONNE* create_column(char *);
-int insert_value(COLONNE* , int);
+int insert_value(COLONNE* , void*);
 void delete_column(COLONNE **);
 void print_col(COLONNE *);
 #endif
