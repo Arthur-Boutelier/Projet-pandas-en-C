@@ -1,3 +1,3 @@
-C:/Users/arthu/CLionProjects/Projet-C/cmake-build-debug/CMakeFiles/Projet_C.dir
-C:/Users/arthu/CLionProjects/Projet-C/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/arthu/CLionProjects/Projet-C/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/macos/CLionProjects/Projet-C/cmake-build-debug/CMakeFiles/Projet_C.dir
+/Users/macos/CLionProjects/Projet-C/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/macos/CLionProjects/Projet-C/cmake-build-debug/CMakeFiles/rebuild_cache.dir
