@@ -14,7 +14,7 @@ void afficher_cd(CDATAFRAME*);
 void afficher_ligne_entre(CDATAFRAME*, long long int, long long int);
 void afficher_colonne_entre(CDATAFRAME*, char*, char*);
 void ajouter_ligne(CDATAFRAME*, list);
-void ajouter_colonne(CDATAFRAME*, COLONNE);
+void ajouter_colonne(CDATAFRAME*, COLONNE*);
 void suppr_ligne(CDATAFRAME*, long long int);
 void renommer_col(CDATAFRAME*, char*, char*);
 int existe_cd(CDATAFRAME*, void*);
