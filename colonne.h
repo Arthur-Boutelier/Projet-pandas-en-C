@@ -1,5 +1,5 @@
-#ifndef PROJET_C_FUNCTION_H
-#define PROJET_C_FUNCTION_H
+#ifndef PROJET_C_COLONNE_H
+#define PROJET_C_COLONNE_H
 
 typedef enum
 {
@@ -38,4 +38,20 @@ COLONNE* create_column(char *);
 int insert_value(COLONNE* , void*);
 void delete_column(COLONNE **);
 void print_col(COLONNE *);
+void convert_value(COLONNE *, unsigned long long int, char*, int);
+long long int occurence(COLONNE *, void*);
+char* valeur_pos(COLONNE*, long long int);
+long long int nb_valeur_plus_petite(COLONNE*, void*);
+long long int nb_valeur_plus_grande(COLONNE*, void*);
+long long int nb_valeur_egale(COLONNE*, void*);
+void tri_insertion(COLONNE*);
+void quicksort(COLONNE*);
+void print_colonne_par_index(COLONNE*);
+void supprimer_index(COLONNE*);
+int verifier_index(COLONNE*);
+void actualiser_index(COLONNE*);
+int chercher_val_col_trier(COLONNE*, void*);
+
+
+
 #endif

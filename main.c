@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "function.h"
+#include "colonne.h"
 int main()
 {
     int *ptr= malloc(sizeof(int)*3);
