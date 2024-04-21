@@ -34,7 +34,7 @@ typedef struct{
 
 
 
-COLONNE* create_column(char *);
+COLONNE* create_column(TYPE, char *);
 int insert_value(COLONNE* , void*);
 void delete_column(COLONNE **);
 void print_col(COLONNE *);
@@ -44,8 +44,6 @@ char* valeur_pos(COLONNE*, long long int);
 long long int nb_valeur_plus_petite(COLONNE*, void*);
 long long int nb_valeur_plus_grande(COLONNE*, void*);
 long long int nb_valeur_egale(COLONNE*, void*);
-void tri_insertion(COLONNE*);
-void quicksort(COLONNE*);
 void print_colonne_par_index(COLONNE*);
 void supprimer_index(COLONNE*);
 int verifier_index(COLONNE*);

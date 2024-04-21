@@ -2,9 +2,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-COLONNE* create_column(char * title)
+COLONNE* create_column(TYPE type,char * title)
 {
-    COLONNE col; COLONNE * ptr=NULL;
+    COLONNE col;
+    COLONNE * ptr=NULL;
+    col.type = type;
     col.titre=title; col.donnees=NULL; col.tlog=0; col.tmax=256; ptr=&col;
     return ptr;
 }
