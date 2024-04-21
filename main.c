@@ -14,8 +14,8 @@ int main()
     afficher_ligne_entre(etudiants,24,31);
     suppr_ligne(etudiants,40);
     renommer_col(etudiants,"Notes","Moyennes");
-    ajouter_colonne(etudiants, *create_column(INT,"age")); /*mettre colonne* ?*/
-    ajouter_ligne(etudiants,*lst_create_list());   /*mettre list* ?*/
+    ajouter_colonne(etudiants, create_column(INT,"age"));
+    ajouter_ligne(etudiants,*lst_create_list()); 
     if (existe_cd(etudiants,"Lesage")){
         printf("Cette valeur existe.");
     }
