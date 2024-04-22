@@ -67,6 +67,7 @@ void convert_value(COLONNE * col , unsigned long long int indice, char* str, int
  *          taille : int
  * Sortie : void
  */
+
 long long int occurence(COLONNE * col, void* valeur);
 /*
  * Cette fonction permet de calculer le nombre d'occurence d'une valeur dans une colonne
