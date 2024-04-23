@@ -3,7 +3,14 @@
 #include "cdataframe.h"
 int main()
 {
-    TYPE types[]={STRING,STRING, INT,FLOAT};
+    COLONNE * A= create_column(INT,"caca");
+    printf("%s",A->titre);
+
+
+
+
+
+    /*TYPE types[]={STRING,STRING, INT,FLOAT};
     int nbcol=4,nblig,note=15;
     CDATAFRAME* etudiants= creer_cd(types,nbcol);
     remplir_cd(etudiants);
@@ -30,6 +37,6 @@ int main()
     printf("%lld étudiants ont eu plus de 15", nb_valeur_sup_cd(etudiants,&note));
     printf("%lld étudiants ont eu moins de 15", nb_valeur_inf_cd(etudiants,&note));
 
-    suppr_cd(&etudiants);
+    suppr_cd(&etudiants);*/
     return 0;
 }

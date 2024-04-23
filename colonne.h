@@ -142,4 +142,5 @@ void actualiser_index(COLONNE* col);
 int chercher_val_col_trier(COLONNE* col, void* valeur);
 
 
+
 #endif

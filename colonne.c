@@ -5,10 +5,9 @@
 #define taille_realloc 256
 COLONNE* create_column(TYPE type,char * title)
 {
-    COLONNE col;
-    COLONNE * ptr=NULL;
-    col.type = type;
-    col.titre=title; col.donnees=NULL; col.tlog=0; col.tmax=256; ptr=&col;
+    COLONNE * ptr=malloc(sizeof (COLONNE));
+    if (title==NULL){return NULL;}
+    ptr->titre=title;ptr->donnees=NULL; ptr->type=type;ptr->index=NULL;ptr->tmax=0;ptr->tlog=0;
     return ptr;
 }
 
