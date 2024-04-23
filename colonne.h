@@ -41,7 +41,7 @@ COLONNE* create_column(TYPE type, char * nom);
  *          valeur : void* ,Pointeur visant une valeur
  * Sortie : Renvoie un booléen celon l'accomplissement de l'insertion
  */
-int insert_value(COLONNE* col, void*  valeur);
+int inserer_valeur(COLONNE* col, void*  valeur);
 
 /*
  * Cette fonction permet de supprimer une colonne
@@ -140,7 +140,8 @@ void actualiser_index(COLONNE* col);
  * Sortie : int
  */
 int chercher_val_col_trier(COLONNE* col, void* valeur);
-
+void allocation_initial(COLONNE* col);
+void reallocation(COLONNE* col);
 
 
 #endif
