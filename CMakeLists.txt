@@ -14,4 +14,5 @@ add_executable(Projet_C
         list.c
         sort.h
         sort.c
-        main.c)
+        main.c
+        colonne.c)
