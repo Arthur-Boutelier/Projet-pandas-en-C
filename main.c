@@ -3,14 +3,16 @@
 #include "cdataframe.h"
 int main()
 {
-    printf("4");
-    int a=3;
-    COLONNE * A= create_column(INT,"caca");
-    printf("%s\n",A->titre);
-    printf("%d\n",A->tlog);
+  printf("4");
+  int a=3, b = 0;
+  COLONNE * A= create_column(INT,"caca");
+  inserer_valeur(A,&a);
     inserer_valeur(A,&a);
-    printf("%d\n",A->tlog);
-    printf("%d",A->donnees[0][0]);
+    inserer_valeur(A, &b);
+    inserer_valeur(A,&a);
+  printf("%lld\n", occurence(A, (void*)(&a)));
+  printf("%lld", occurence(A, (void*)(&b)));
+
 
 
 

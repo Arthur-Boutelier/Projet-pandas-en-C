@@ -8,7 +8,7 @@ typedef enum
 
 typedef union {
     unsigned int uint_value;
-    signed int int_value;
+    int int_value;
     char char_value;
     float float_value;
     double double_value;

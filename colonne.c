@@ -77,7 +77,7 @@ int inserer_valeur(COLONNE* col, void* val)
             break;
         case STRING:
             col->donnees[col->tlog] = (char*) malloc (sizeof(char)*strlen(val));
-            *((char*)col->donnees[col->tlog])= *((char*)val);
+            *((char*)(col->donnees[col->tlog]))= *((char*)val);
             break;
         case STRUCTURE:
             break;
@@ -104,3 +104,52 @@ void print_col(COLONNE *col)
         printf("[%d]   %d\n",i,(col->donnees)[i]);
     }
 }
+
+long long int occurence(COLONNE * col, void* valeur){
+    long long int nb_occurrence = 0;
+    switch (col->type) {
+        case(NULLVAL):
+            break;
+        case INT:
+            for (long long int i = 0; i<col->tlog; i++){
+                if (*((int*)(col->donnees[i])) == *((int*)valeur))
+                    nb_occurrence++;
+            }
+            break;
+        case CHAR:
+            for (long long int i = 0; i<col->tlog; i++){
+                if (*((char*)(col->donnees[i])) == *((char*)valeur))
+                    nb_occurrence++;
+            }
+            break;
+        case UINT:
+            for (long long int i = 0; i<col->tlog; i++){
+                if (*((unsigned int*)(col->donnees[i])) == *((unsigned int*)valeur))
+                    nb_occurrence++;
+            }
+            break;
+        case FLOAT:
+            for (long long int i = 0; i<col->tlog; i++){
+                if (*((float*)(col->donnees[i])) == *((float*)valeur))
+                    nb_occurrence++;
+            }
+            break;
+        case DOUBLE:
+            for (long long int i = 0; i<col->tlog; i++){
+                if (*((double *)(col->donnees[i])) == *((double*)valeur))
+                    nb_occurrence++;
+            }
+            break;
+        case STRING:
+            for (long long int i = 0; i<col->tlog; i++){
+                if (!strcmp(*((char **)(col->donnees[i])), *((char**)valeur)))
+                    nb_occurrence++;
+            }
+            break;
+        case STRUCTURE:
+            break;
+    }
+    return nb_occurrence;
+}
+
+
