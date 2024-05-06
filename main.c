@@ -3,47 +3,23 @@
 #include "cdataframe.h"
 int main()
 {
-  printf("4");
-  int a=3, b = 0;
-  COLONNE * A= create_column(INT,"caca");
-  inserer_valeur(A,&a);
-    inserer_valeur(A,&a);
-    inserer_valeur(A, &b);
-    inserer_valeur(A,&a);
-  printf("%lld\n", occurence(A, (void*)(&a)));
-  printf("%lld", occurence(A, (void*)(&b)));
+    int a=12,b=14;
+    COLONNE * A= create_column(INT,"caca");
+    printf("%s\n",A->titre);
+    /*inserer_valeur(A,&a);
+    inserer_valeur(A,NULL);
+    inserer_valeur(A,&b);*/
+    for (int i=0;i<5;i++){
+        inserer_valeur(A,&i);
+    }
 
-
+    print_col(A);
+    //MODIFF DANS INSERER VALEUR !!!
 
 
 
 
     /*TYPE types[]={STRING,STRING, INT,FLOAT};
-    int nbcol=4,nblig,note=15;
-    CDATAFRAME* etudiants= creer_cd(types,nbcol);
-    remplir_cd(etudiants);
-    suppr_colonne(etudiants,"Prénoms");
-    nbcol = nb_colonne_cd(etudiants);
-    afficher_cd(etudiants);
-    afficher_colonne_entre(etudiants,"Noms","Notes");
-    afficher_ligne_entre(etudiants,24,31);
-    suppr_ligne(etudiants,40);
-    renommer_col(etudiants,"Notes","Moyennes");
-    ajouter_colonne(etudiants, create_column(INT,"age"));
-    ajouter_ligne(etudiants,*lst_create_list()); 
-    if (existe_cd(etudiants,"Lesage")){
-        printf("Cette valeur existe.");
-    }
-    else{
-        printf("Cette valeur n'existe pas.");
-    }
-    afficher_nom_col(etudiants);
-    nblig= nb_ligne_cd(etudiants);
-    modif_valeur(etudiants,"Moyennes",21,&note);
-    printf("La valeur colonne 'Noms' lignes 17 est: %p", obtenir_valeur(etudiants,"Noms",17));
-    printf("%lld étudiants ont eu 15", nb_valeur_egal_cd(etudiants,&note));
-    printf("%lld étudiants ont eu plus de 15", nb_valeur_sup_cd(etudiants,&note));
-    printf("%lld étudiants ont eu moins de 15", nb_valeur_inf_cd(etudiants,&note));
 
     suppr_cd(&etudiants);*/
     return 0;
