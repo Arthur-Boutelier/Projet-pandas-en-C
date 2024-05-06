@@ -12,8 +12,8 @@ int main()
     for (int i=0;i<5;i++){
         inserer_valeur(A,&i);
     }
-    print_col(A);
 
+    print_col(A);
     //MODIFF DANS INSERER VALEUR !!!
 
 

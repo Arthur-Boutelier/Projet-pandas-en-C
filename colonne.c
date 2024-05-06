@@ -148,17 +148,50 @@ void convert_value(COLONNE * col , unsigned long long int indice, char* str, int
             break;
     }
 }
+
 long long int occurence(COLONNE * col, void* valeur){
-    long long int cpt=0;
-    switch(col->type){
+    long long int nb_occurrence = 0;
+    switch (col->type) {
+        case(NULLVAL):
+            break;
         case INT:
-            (int*)valeur;
+            for (long long int i = 0; i<col->tlog; i++){
+                if (*((int*)(col->donnees[i])) == *((int*)valeur))
+                    nb_occurrence++;
+            }
+            break;
+        case CHAR:
+            for (long long int i = 0; i<col->tlog; i++){
+                if (*((char*)(col->donnees[i])) == *((char*)valeur))
+                    nb_occurrence++;
+            }
+            break;
+        case UINT:
+            for (long long int i = 0; i<col->tlog; i++){
+                if (*((unsigned int*)(col->donnees[i])) == *((unsigned int*)valeur))
+                    nb_occurrence++;
+            }
+            break;
+        case FLOAT:
+            for (long long int i = 0; i<col->tlog; i++){
+                if (*((float*)(col->donnees[i])) == *((float*)valeur))
+                    nb_occurrence++;
+            }
+            break;
+        case DOUBLE:
+            for (long long int i = 0; i<col->tlog; i++){
+                if (*((double *)(col->donnees[i])) == *((double*)valeur))
+                    nb_occurrence++;
+            }
+            break;
+        case STRING:
+            for (long long int i = 0; i<col->tlog; i++){
+                if (!strcmp(*((char **)(col->donnees[i])), *((char**)valeur)))
+                    nb_occurrence++;
+            }
+            break;
+        case STRUCTURE:
             break;
     }
-    for (int i=0;i<col->tlog;i++){
-        if (valeur==col->donnees[i]){
-            cpt++;
-        }
-    }
-    return cpt;
+    return nb_occurrence;
 }
