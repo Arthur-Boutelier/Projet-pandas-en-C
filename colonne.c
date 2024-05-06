@@ -156,39 +156,45 @@ long long int occurence(COLONNE * col, void* valeur){
             break;
         case INT:
             for (long long int i = 0; i<col->tlog; i++){
-                if (*((int*)(col->donnees[i])) == *((int*)valeur))
-                    nb_occurrence++;
-            }
+                if (col->donnees[i]!=NULL) {
+                    if (*((int *) (col->donnees[i])) == *((int *) valeur))
+                        nb_occurrence++;
+                }}
             break;
         case CHAR:
             for (long long int i = 0; i<col->tlog; i++){
-                if (*((char*)(col->donnees[i])) == *((char*)valeur))
-                    nb_occurrence++;
-            }
+                if (col->donnees[i]!=NULL) {
+                    if (*((char*)(col->donnees[i])) == *((char*)valeur))
+                        nb_occurrence++;
+                }}
             break;
         case UINT:
             for (long long int i = 0; i<col->tlog; i++){
-                if (*((unsigned int*)(col->donnees[i])) == *((unsigned int*)valeur))
-                    nb_occurrence++;
-            }
+                if (col->donnees[i]!=NULL) {
+                    if (*((unsigned int*)(col->donnees[i])) == *((unsigned int*)valeur))
+                        nb_occurrence++;
+                }}
             break;
         case FLOAT:
             for (long long int i = 0; i<col->tlog; i++){
-                if (*((float*)(col->donnees[i])) == *((float*)valeur))
-                    nb_occurrence++;
-            }
+                if (col->donnees[i]!=NULL) {
+                    if (*((float*)(col->donnees[i])) == *((float*)valeur))
+                        nb_occurrence++;
+                }}
             break;
         case DOUBLE:
             for (long long int i = 0; i<col->tlog; i++){
-                if (*((double *)(col->donnees[i])) == *((double*)valeur))
-                    nb_occurrence++;
-            }
+                if (col->donnees[i]!=NULL) {
+                    if (*((double *)(col->donnees[i])) == *((double*)valeur))
+                        nb_occurrence++;
+                }}
             break;
         case STRING:
             for (long long int i = 0; i<col->tlog; i++){
-                if (!strcmp(*((char **)(col->donnees[i])), *((char**)valeur)))
-                    nb_occurrence++;
-            }
+                if (col->donnees[i]!=NULL) {
+                    if (!strcmp(*((char **)(col->donnees[i])), *((char**)valeur)))
+                        nb_occurrence++;
+                }}
             break;
         case STRUCTURE:
             break;
@@ -209,39 +215,45 @@ long long int nb_valeur_inf_col(COLONNE* col, void* valeur){
             break;
         case INT:
             for (long long int i = 0; i<col->tlog; i++){
-                if (*((int*)(col->donnees[i])) < *((int*)valeur))
-                    cmpt++;
-            }
+                if (col->donnees[i]!=NULL) {
+                    if (*((int*)(col->donnees[i])) < *((int*)valeur))
+                        cmpt++;
+                }}
             break;
         case CHAR:
             for (long long int i = 0; i<col->tlog; i++){
-                if (*((char*)(col->donnees[i])) < *((char*)valeur))
-                    cmpt++;
-            }
+                if (col->donnees[i]!=NULL) {
+                    if (*((char*)(col->donnees[i])) < *((char*)valeur))
+                        cmpt++;
+                }}
             break;
         case UINT:
             for (long long int i = 0; i<col->tlog; i++){
-                if (*((unsigned int*)(col->donnees[i])) < *((unsigned int*)valeur))
-                    cmpt++;
-            }
+                if (col->donnees[i]!=NULL) {
+                    if (*((unsigned int*)(col->donnees[i])) < *((unsigned int*)valeur))
+                        cmpt++;
+                }}
             break;
         case FLOAT:
             for (long long int i = 0; i<col->tlog; i++){
-                if (*((float*)(col->donnees[i])) < *((float*)valeur))
-                    cmpt++;
-            }
+                if (col->donnees[i]!=NULL) {
+                    if (*((float*)(col->donnees[i])) < *((float*)valeur))
+                        cmpt++;
+                }}
             break;
         case DOUBLE:
             for (long long int i = 0; i<col->tlog; i++){
-                if (*((double *)(col->donnees[i])) < *((double*)valeur))
-                    cmpt++;
-            }
+                if (col->donnees[i]!=NULL) {
+                    if (*((double *)(col->donnees[i])) < *((double*)valeur))
+                        cmpt++;
+                }}
             break;
         case STRING:
             for (long long int i = 0; i<col->tlog; i++){
-                if (strcmp(*((char **)(col->donnees[i])), *((char**)valeur))<0)
-                    cmpt++;
-            }
+                if (col->donnees[i]!=NULL) {
+                    if (strcmp(*((char **)(col->donnees[i])), *((char**)valeur))<0)
+                        cmpt++;
+                }}
             break;
         case STRUCTURE:
             break;
@@ -257,39 +269,45 @@ long long int nb_valeur_sup_col(COLONNE* col, void* valeur){
             break;
         case INT:
             for (long long int i = 0; i<col->tlog; i++){
-                if (*((int*)(col->donnees[i])) > *((int*)valeur))
-                    cmpt++;
-            }
+                if (col->donnees[i]!=NULL) {
+                    if (*((int*)(col->donnees[i])) > *((int*)valeur))
+                        cmpt++;
+                }}
             break;
         case CHAR:
             for (long long int i = 0; i<col->tlog; i++){
-                if (*((char*)(col->donnees[i])) > *((char*)valeur))
-                    cmpt++;
-            }
+                if (col->donnees[i]!=NULL) {
+                    if (*((char*)(col->donnees[i])) > *((char*)valeur))
+                        cmpt++;
+                }}
             break;
         case UINT:
             for (long long int i = 0; i<col->tlog; i++){
-                if (*((unsigned int*)(col->donnees[i])) > *((unsigned int*)valeur))
-                    cmpt++;
-            }
+                if (col->donnees[i]!=NULL) {
+                    if (*((unsigned int*)(col->donnees[i])) > *((unsigned int*)valeur))
+                        cmpt++;
+                }}
             break;
         case FLOAT:
             for (long long int i = 0; i<col->tlog; i++){
-                if (*((float*)(col->donnees[i])) > *((float*)valeur))
-                    cmpt++;
-            }
+                if (col->donnees[i]!=NULL) {
+                    if (*((float*)(col->donnees[i])) > *((float*)valeur))
+                        cmpt++;
+                }}
             break;
         case DOUBLE:
             for (long long int i = 0; i<col->tlog; i++){
-                if (*((double *)(col->donnees[i])) > *((double*)valeur))
-                    cmpt++;
-            }
+                if (col->donnees[i]!=NULL) {
+                    if (*((double *)(col->donnees[i])) > *((double*)valeur))
+                        cmpt++;
+                }}
             break;
         case STRING:
             for (long long int i = 0; i<col->tlog; i++){
-                if (strcmp(*((char **)(col->donnees[i])), *((char**)valeur))>0)
-                    cmpt++;
-            }
+                if (col->donnees[i]!=NULL) {
+                    if (strcmp(*((char **)(col->donnees[i])), *((char**)valeur))>0)
+                        cmpt++;
+                }}
             break;
         case STRUCTURE:
             break;
