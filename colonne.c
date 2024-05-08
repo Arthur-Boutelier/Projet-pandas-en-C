@@ -15,32 +15,34 @@ COLONNE* create_column(TYPE type,char * title)
 void allocation_initial(COLONNE* col){
     switch(col->type){
         case INT:
-            col->donnees = (int**) malloc(taille_realloc*sizeof(int*));
+            col->donnees = (COLUMN_TYPE **) malloc(taille_realloc*sizeof(int*));
             break;
         case CHAR:
-            col->donnees = (char**) malloc(taille_realloc*sizeof(char*));
+            col->donnees = (COLUMN_TYPE **) malloc(taille_realloc*sizeof(char*));
             break;
         case UINT:
-            col->donnees = (unsigned int**) malloc(taille_realloc*sizeof(unsigned int*));
+            col->donnees = (COLUMN_TYPE **) malloc(taille_realloc*sizeof(unsigned int*));
             break;
         case FLOAT:
-            col->donnees = (float **) malloc(taille_realloc*sizeof(float *));
+            col->donnees = (COLUMN_TYPE **) malloc(taille_realloc*sizeof(float *));
             break;
         case DOUBLE:
-            col->donnees = (double **) malloc(taille_realloc*sizeof(double *));
+            col->donnees = (COLUMN_TYPE **) malloc(taille_realloc*sizeof(double *));
             break;
         case STRING:
-            col->donnees = (char***) malloc(taille_realloc*sizeof(char***));
+            col->donnees = (COLUMN_TYPE **) malloc(taille_realloc*sizeof(char***));
             break;
         case STRUCTURE:
-            col->donnees = (void**) malloc(taille_realloc*sizeof(void**));
+            col->donnees = (COLUMN_TYPE **) malloc(taille_realloc*sizeof(void**));
             break;
+        case NULLVAL:
+            col->donnees = (COLUMN_TYPE**) malloc(taille_realloc*sizeof (NULLVAL));
     }
     col->tmax = 256;
 }
 
 void reallocation(COLONNE* col){
-    void ** ptr;
+    COLUMN_TYPE ** ptr;
     ptr = realloc(col->donnees, col->tmax+taille_realloc);
     col->donnees = ptr;
 }
@@ -57,30 +59,33 @@ int inserer_valeur(COLONNE* col, void* val)
     if (val!=NULL){
         switch (col->type){
             case INT:
-                col->donnees[col->tlog] = (int*) malloc (sizeof(int));
+                col->donnees[col->tlog] = (COLUMN_TYPE*) malloc (sizeof(int));
                 *((int*)col->donnees[col->tlog])= *((int*)val);
                 break;
             case CHAR:
-                col->donnees[col->tlog] = (char *) malloc (sizeof(char));
+                col->donnees[col->tlog] = (COLUMN_TYPE *) malloc (sizeof(char));
                 *((char *)col->donnees[col->tlog])= *((char *)val);
                 break;
             case UINT:
-                col->donnees[col->tlog] = (unsigned int*) malloc (sizeof(unsigned int));
+                col->donnees[col->tlog] = (COLUMN_TYPE *) malloc (sizeof(unsigned int));
                 *((unsigned int*)col->donnees[col->tlog])= *((unsigned int*)val);
                 break;
             case FLOAT:
-                col->donnees[col->tlog] = (float*) malloc (sizeof(float));
+                col->donnees[col->tlog] = (COLUMN_TYPE *) malloc (sizeof(float));
                 *((float*)col->donnees[col->tlog])= *((float *)val);
                 break;
             case DOUBLE:
-                col->donnees[col->tlog] = (double *) malloc (sizeof(double));
+                col->donnees[col->tlog] = (COLUMN_TYPE *) malloc (sizeof(double));
                 *((double *)col->donnees[col->tlog])= *((double *)val);
                 break;
             case STRING:
-                col->donnees[col->tlog] = (char**) malloc (sizeof(char*)*strlen(val));
-                *((char**)col->donnees[col->tlog])= *((char**)val);
+                col->donnees[col->tlog] = (COLUMN_TYPE *) malloc (sizeof(char)*strlen(val));
+                strcpy((char *)col->donnees[col->tlog], (char *)val);
                 break;
             case STRUCTURE:
+                break;
+            case NULLVAL:
+                col->donnees[col->tlog] = NULL;
                 break;
         }
         col->tlog +=1;
@@ -105,7 +110,7 @@ void supprimer_colonne(COLONNE *col)
 void print_col(COLONNE *col)
 {
     int n=col->tlog;
-    char str[5]="";
+    char str[100];
     for (int i=0;i<n;i++)
     {
         if( (col->donnees[i])==NULL    )
@@ -118,7 +123,7 @@ void print_col(COLONNE *col)
                 printf("[%d]    %s\n",i,(char*)col->donnees[i]);
             }
             else{
-                convert_value(col,i,str,5);
+                convert_value(col,i,str,100);
                 printf("[%d]    %s\n",i,str);
             }}
     }
@@ -142,62 +147,78 @@ void convert_value(COLONNE * col , unsigned long long int indice, char* str, int
             snprintf(str, taille, "%lf", *((double*)col->donnees[indice]));
             break;
         case STRING:
-
+            strcpy(str, (char*)col->donnees[indice]);
             break;
         case STRUCTURE:
             break;
+        case NULLVAL:
+            strcpy(str, "NULL");
     }
 }
 
 long long int occurence(COLONNE * col, void* valeur){
     long long int nb_occurrence = 0;
-    switch (col->type) {
-        case(NULLVAL):
-            break;
-        case INT:
-            for (long long int i = 0; i<col->tlog; i++){
-                if (col->donnees[i]!=NULL) {
-                    if (*((int *) (col->donnees[i])) == *((int *) valeur))
-                        nb_occurrence++;
-                }}
-            break;
-        case CHAR:
-            for (long long int i = 0; i<col->tlog; i++){
-                if (col->donnees[i]!=NULL) {
-                    if (*((char*)(col->donnees[i])) == *((char*)valeur))
-                        nb_occurrence++;
-                }}
-            break;
-        case UINT:
-            for (long long int i = 0; i<col->tlog; i++){
-                if (col->donnees[i]!=NULL) {
-                    if (*((unsigned int*)(col->donnees[i])) == *((unsigned int*)valeur))
-                        nb_occurrence++;
-                }}
-            break;
-        case FLOAT:
-            for (long long int i = 0; i<col->tlog; i++){
-                if (col->donnees[i]!=NULL) {
-                    if (*((float*)(col->donnees[i])) == *((float*)valeur))
-                        nb_occurrence++;
-                }}
-            break;
-        case DOUBLE:
-            for (long long int i = 0; i<col->tlog; i++){
-                if (col->donnees[i]!=NULL) {
-                    if (*((double *)(col->donnees[i])) == *((double*)valeur))
-                        nb_occurrence++;
-                }}
-            break;
-        case STRING:
-            for (long long int i = 0; i<col->tlog; i++){
-                if (col->donnees[i]!=NULL) {
-                    if (!strcmp(*((char **)(col->donnees[i])), *((char**)valeur)))
-                        nb_occurrence++;
-                }}
-            break;
-        case STRUCTURE:
-            break;
+    if (valeur != NULL) {
+        switch (col->type) {
+            case (NULLVAL):
+                break;
+            case INT:
+                for (long long int i = 0; i < col->tlog; i++) {
+                    if (col->donnees[i] != NULL) {
+                        if (*((int *) (col->donnees[i])) == *((int *) valeur))
+                            nb_occurrence++;
+                    }
+                }
+                break;
+            case CHAR:
+                for (long long int i = 0; i < col->tlog; i++) {
+                    if (col->donnees[i] != NULL) {
+                        if (*((char *) (col->donnees[i])) == *((char *) valeur))
+                            nb_occurrence++;
+                    }
+                }
+                break;
+            case UINT:
+                for (long long int i = 0; i < col->tlog; i++) {
+                    if (col->donnees[i] != NULL) {
+                        if (*((unsigned int *) (col->donnees[i])) == *((unsigned int *) valeur))
+                            nb_occurrence++;
+                    }
+                }
+                break;
+            case FLOAT:
+                for (long long int i = 0; i < col->tlog; i++) {
+                    if (col->donnees[i] != NULL) {
+                        if (*((float *) (col->donnees[i])) == *((float *) valeur))
+                            nb_occurrence++;
+                    }
+                }
+                break;
+            case DOUBLE:
+                for (long long int i = 0; i < col->tlog; i++) {
+                    if (col->donnees[i] != NULL) {
+                        if (*((double *) (col->donnees[i])) == *((double *) valeur))
+                            nb_occurrence++;
+                    }
+                }
+                break;
+            case STRING:
+                for (long long int i = 0; i < col->tlog; i++) {
+                    if (col->donnees[i] != NULL) {
+                        if (!strcmp(*((char **) (col->donnees[i])), *((char **) valeur)))
+                            nb_occurrence++;
+                    }
+                }
+                break;
+            case STRUCTURE:
+                break;
+        }
+    }
+    else{
+        for (long long int i = 0; i < col->tlog; i++) {
+            if (col->donnees[i] == NULL)
+                    nb_occurrence++;
+        }
     }
     return nb_occurrence;
 }

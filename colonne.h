@@ -49,7 +49,7 @@ int inserer_valeur(COLONNE* col, void*  valeur);
  * Entrée : col : COLONNE**, une double pointeur permettant de viser la colonne à supprimer
  * Sortie : void
  */
-void delete_column(COLONNE * col);
+void supprimer_colonne(COLONNE * col);
 
 /*
  * Cette fonction permet d'afficher une colonne
