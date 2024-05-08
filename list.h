@@ -1,16 +1,19 @@
-#ifndef _LIST_H_
-#define _LIST_H_
+#ifndef PRJ_LISTE_H_
+#define PRJ_LISTE_H_
+#include "colonne.h"
 /**
 * Élément lnode
 */
+
 typedef struct lnode_ {
-    void *data;
+    COLONNE *data;
     struct lnode_ *prev;
     struct lnode_ *next;
 } lnode;
 /**
 * Une liste
 */
+
 typedef struct list_ {
     lnode *head;
     lnode *tail;
@@ -18,7 +21,7 @@ typedef struct list_ {
 /**
 * création d'un noeud
 */
-lnode *lst_create_lnode(void *dat);
+lnode *lst_create_lnode(COLONNE *dat);
 /**
 * crée la liste et retourne un pointeur sur cette dernière
 */

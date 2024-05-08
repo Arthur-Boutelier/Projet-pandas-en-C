@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "list.h"
-lnode *lst_create_lnode(void *dat) {
+
+
+lnode *lst_create_lnode(COLONNE *dat) {
     lnode *ptmp = (lnode *) malloc(sizeof(lnode));
     ptmp->data =dat;
     ptmp->next = NULL;
@@ -82,13 +84,16 @@ void lst_delete_lnode(list * lst, lnode * ptr) {
     if (ptr == NULL)
         return;
     if (ptr == lst->head) {
+        supprimer_colonne(ptr->data);
         lst_delete_head(lst);
         return;
     }
     if (ptr == lst->tail) {
+        supprimer_colonne(ptr->data);
         lst_delete_tail(lst);
         return;
     }
+    supprimer_colonne(ptr->data);
     ptr->next->prev = ptr->prev;
     ptr->prev->next = ptr->next;
     free(ptr);
