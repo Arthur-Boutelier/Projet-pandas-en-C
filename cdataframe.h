@@ -24,7 +24,7 @@ void remplir_cd(CDATAFRAME* cd);
  *Sortie : void
  *Entrée: cd : CDATAFRAME ** : Pointeur vers le Dataframe à supprimer
  */
-void suppr_cd(CDATAFRAME* cd);
+void suppr_cd(CDATAFRAME** cd);
 
 /*
 *fonction qui supprime une colonne dans un dataframe
@@ -39,7 +39,7 @@ void suppr_colonne(CDATAFRAME* cd, char* nom);
  *Sortie : int : nombre de colonne dans le dataframe
  *Entrée: cd : CDATAFRAME * : pointeur vers le dataframe
  */
-int nb_colonne_cd(CDATAFRAME* cd);
+long long int nb_colonne_cd(CDATAFRAME* cd);
 
 /*
 *fonction qui affiche un dataframe
@@ -69,7 +69,7 @@ void afficher_colonne_entre(CDATAFRAME* cd, char* nom_debut, char* nom_fin);
  *Entrée: cd : CDATAFRAME * : pointeur vers le dataframe
  *        liste : list* : pointeur vers une liste doublement chainé contenant la nouvelle ligne
  */
-void ajouter_ligne(CDATAFRAME* cd, list* liste);
+void ajouter_ligne(CDATAFRAME* cd, CDATAFRAME * cd_ajouter);
 
 /*
 *fonction qui permet de rajouter une colonne dans un dataframe
@@ -134,7 +134,7 @@ void afficher_nom_col(CDATAFRAME* cd);
  *Sortie : int : nombre de ligne dans le dataframe
  *Entrée: cd : CDATAFRAME * : pointeur vers le dataframe
  */
-int nb_ligne_cd(CDATAFRAME* cd);
+long long int nb_ligne_cd(CDATAFRAME* cd);
 
 /*
 *fonction qui renvoie le nombre de valeur inférieur a une valeur prise en argument dans un dataframe

@@ -225,7 +225,7 @@ long long int occurence(COLONNE * col, void* valeur){
 
 void* valeur_pos(COLONNE* col, long long int indice){
     if (indice<col->tlog)
-        return col->donnees[indice];
+        return (col->donnees[indice]);
     return NULL;
 }
 
@@ -334,4 +334,13 @@ long long int nb_valeur_sup_col(COLONNE* col, void* valeur){
             break;
     }
     return cmpt;
+}
+
+void colonne_supprimer_indice(COLONNE* col, long long int indice){
+    if (indice<col->tlog){
+        for (long long int i = indice; i<col->tlog-1;i++)
+            col->donnees[i]=col->donnees[i+1];
+        free(col->donnees[col->tlog]);
+        col->tlog--;
+    }
 }
