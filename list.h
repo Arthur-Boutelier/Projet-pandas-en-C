@@ -5,11 +5,17 @@
 * Élément lnode
 */
 
+
+
 typedef struct lnode_ {
-    COLONNE *data;
+    COLONNE * data;
     struct lnode_ *prev;
     struct lnode_ *next;
 } lnode;
+
+
+
+
 /**
 * Une liste
 */

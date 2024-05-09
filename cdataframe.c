@@ -140,3 +140,110 @@ void remplir_cd(CDATAFRAME* cd) {
         temp = temp->next;
         }
 }
+
+void suppr_cd(CDATAFRAME** cd){
+    lst_erase(*cd);
+    free(*cd);
+    *cd = NULL;
+}
+
+void ajouter_colonne(CDATAFRAME* cd, COLONNE* col){
+    long long int taille = nb_ligne_cd(cd);
+    lnode * temp = cd->head;
+    if (taille < col->tlog){
+        while (temp != NULL){
+            for (long long int i = 0; i<col->tlog-taille; i++)
+                inserer_valeur(temp->data, NULL);
+        temp = temp->next;
+        }
+    }
+    else if(taille>col->tlog){
+        for (long long int i = 0; i<taille-col->tlog; i++)
+            inserer_valeur(col, NULL);
+    }
+    lnode* p_nouv = lst_create_lnode(col);
+    lst_insert_tail(cd, p_nouv);
+
+}
+
+void ajouter_ligne(CDATAFRAME* cd, CDATAFRAME* cd_2){
+    lnode* temp_1 = cd->head;
+    lnode* temp_2 = cd_2->head;
+    long long int taille_1 = nb_colonne_cd(cd), taille_2 = nb_colonne_cd(cd_2), compteur = 0;
+    if (taille_1 < taille_2){
+        long long int ecart_taille = taille_2 - taille_1;
+        for (long long int i = 0; i<ecart_taille; i++){
+            COLONNE * nouv_col = create_column(NULLVAL, "");
+            for (long long int j = 0; j<temp_1->data->tlog; j++)
+                inserer_valeur(nouv_col, NULL);
+            ajouter_colonne(cd, nouv_col);
+        }
+    }
+    else if(taille_1 > taille_2){
+        long long int ecart_taille = taille_1 - taille_2;
+        for (long long int i = 0; i<ecart_taille; i++){
+            COLONNE * nouv_col = create_column(NULLVAL, "");
+            for (long long int j = 0; j<temp_2->data->tlog; j++)
+                inserer_valeur(nouv_col, NULL);
+            ajouter_colonne(cd_2, nouv_col);
+        }
+    }
+    while (temp_1!=NULL) {
+        if (compteur++ >= taille_1)
+            temp_1->data->type = temp_2->data->type;
+        if (temp_1->data->type == temp_2->data->type) {
+            for (long long int i = 0; i < temp_2->data->tlog; i++)
+                inserer_valeur(temp_1->data, temp_2->data->donnees[i]);
+        }
+        else{
+            for (long long int i = 0; i < temp_2->data->tlog; i++)
+                inserer_valeur(temp_1->data, NULL);
+        }
+        temp_1 = temp_1->next;
+        temp_2 = temp_2->next;
+    }
+}
+
+long long int nb_colonne_cd(CDATAFRAME* cd){
+    lnode * temp = cd->head;
+    long long int taille = 0;
+    while (temp != NULL){
+        taille++;
+        temp = temp->next;
+    }
+    return taille;
+}
+
+long long int nb_ligne_cd(CDATAFRAME* cd){
+    return cd->head->data->tlog;
+}
+
+void afficher_cd(CDATAFRAME* cd){
+    if (cd != NULL) {
+        lnode *temp;
+        char str[100];
+        for (long long i = 0; i < nb_ligne_cd(cd); i++) {
+            temp = cd->head;
+            printf("[%lld]  ", i);
+            while (temp != NULL) {
+                if (temp->data->donnees[i] != NULL) {
+                    convert_value(temp->data, i, str, 100);
+                    printf("%15s  ", str);
+                } else
+                    printf("%15s  ", "NULL");
+                temp = temp->next;
+            }
+            printf("\n");
+        }
+    }
+    else
+        printf("Ce Dataframe n'existe pas\n");
+}
+
+void suppr_ligne(CDATAFRAME* cd, long long int indice){
+    lnode* temp = cd->head;
+    while(temp!= NULL){
+        colonne_supprimer_indice(temp->data, indice);
+        temp = temp->next;
+    }
+}

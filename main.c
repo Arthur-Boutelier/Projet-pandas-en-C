@@ -13,14 +13,15 @@ int main()
     inserer_valeur(A,&b);
     print_col(A);
     printf("%lld\n", occurence(A,u));
-    //MODIFF DANS INSERER VALEUR !!!
 
-
-    TYPE types[]={STRING, INT};
-    CDATAFRAME* cd = creer_cd(types, 1);
+    TYPE types[]={INT, INT, INT};
+    CDATAFRAME* cd = creer_cd(types, 2);
+    CDATAFRAME* cd_2 = creer_cd(types, 2);
     remplir_cd(cd);
-    print_col(cd->head->data);
-    /*
-    suppr_cd(&etudiants);*/
+    afficher_cd(cd);
+    suppr_ligne(cd, 1);
+    afficher_cd(cd);
+    suppr_cd(&cd);
+    afficher_cd(cd);
     return 0;
 }
