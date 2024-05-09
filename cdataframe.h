@@ -101,7 +101,7 @@ void renommer_col(CDATAFRAME* cd, char* ancien_nom, char* nouveau_nom);
  *Entrée: cd : CDATAFRAME * : pointeur vers le dataframe
  *        valeur : void* : pointeur vers valeur rechercher
  */
-int existe_cd(CDATAFRAME* cd, void* valeur);
+int existe_cd(CDATAFRAME* cd, void* valeur, TYPE type_n_v);
 
 /*
 *fonction qui permet de renvoyer la valeur présente au croisement entre la ligne et la colonne choisie dans un dataframe
@@ -120,7 +120,7 @@ void* obtenir_valeur(CDATAFRAME* cd, char* nom_col, long long int indice_ligne);
  *        indice_ligne : long long int : indice de la ligne
  *        nouv_val : void* : nouvelle valeur
  */
-void modif_valeur(CDATAFRAME* cd, char* nom_col, long long int indice_ligne, void* nouv_val);
+void modif_valeur(CDATAFRAME* cd, char* nom_col, long long int indice_ligne, void* nouv_val, TYPE type_n_v);
 
 /*
 *fonction qui affiche le nom de toute les colonnes présente dans un dataframe
@@ -142,7 +142,7 @@ long long int nb_ligne_cd(CDATAFRAME* cd);
  *Entrée: cd : CDATAFRAME * : pointeur vers le dataframe
  *        valeur : void* : pointeur vers la valeur témoin
  */
-long long int nb_valeur_inf_cd(CDATAFRAME* cd, void* valeur);
+long long int nb_valeur_inf_cd(CDATAFRAME* cd, void* valeur, TYPE type_val);
 
 /*
 *fonction qui renvoie le nombre de valeur supérieur a une valeur prise en argument dans un dataframe
@@ -150,7 +150,7 @@ long long int nb_valeur_inf_cd(CDATAFRAME* cd, void* valeur);
  *Entrée: cd : CDATAFRAME * : pointeur vers le dataframe
  *        valeur : void* : pointeur vers la valeur témoin
  */
-long long int nb_valeur_sup_cd(CDATAFRAME* cd, void* valeur);
+long long int nb_valeur_sup_cd(CDATAFRAME* cd, void* valeur, TYPE type_val);
 
 /*
 *fonction qui renvoie le nombre de valeur égal a une valeur prise en argument dans un dataframe
@@ -158,7 +158,7 @@ long long int nb_valeur_sup_cd(CDATAFRAME* cd, void* valeur);
  *Entrée: cd : CDATAFRAME * : pointeur vers le dataframe
  *        valeur : void* : pointeur vers la valeur témoin
  */
-long long int nb_valeur_egal_cd(CDATAFRAME* cd, void* valeur);
+long long int nb_valeur_egal_cd(CDATAFRAME* cd, void* valeur, TYPE type);
 
-
+int col_existe_cd(CDATAFRAME* cd, char* nom);
 #endif //PROJET_C_CDATAFRAME_H
