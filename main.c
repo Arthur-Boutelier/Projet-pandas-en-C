@@ -16,12 +16,8 @@ int main()
 
     TYPE types[]={INT, INT, INT};
     CDATAFRAME* cd = creer_cd(types, 2);
-    CDATAFRAME* cd_2 = creer_cd(types, 2);
     remplir_cd(cd);
     afficher_cd(cd);
-    suppr_ligne(cd, 1);
-    afficher_cd(cd);
-    suppr_cd(&cd);
-    afficher_cd(cd);
+    afficher_ligne_entre(cd, 0,1);
     return 0;
 }

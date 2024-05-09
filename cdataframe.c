@@ -224,7 +224,7 @@ void afficher_cd(CDATAFRAME* cd){
         char str[100];
         for (long long i = 0; i < nb_ligne_cd(cd); i++) {
             temp = cd->head;
-            printf("[%lld]  ", i);
+            printf("[%7lld]  ", i);
             while (temp != NULL) {
                 if (temp->data->donnees[i] != NULL) {
                     convert_value(temp->data, i, str, 100);
@@ -246,4 +246,191 @@ void suppr_ligne(CDATAFRAME* cd, long long int indice){
         colonne_supprimer_indice(temp->data, indice);
         temp = temp->next;
     }
+}
+long long int nb_valeur_egal_cd(CDATAFRAME* cd, void* valeur, TYPE type_val){
+    long long int occ = 0;
+    lnode * temp = cd->head;
+    while(temp != NULL){
+        if(type_val == temp->data->type || valeur == NULL)
+            occ += occurence(temp->data, valeur);
+        temp = temp->next;
+    }
+    return occ;
+}
+
+long long int nb_valeur_sup_cd(CDATAFRAME* cd, void* valeur, TYPE type_val){
+    long long int compteur = 0;
+    lnode * temp = cd->head;
+    while(temp != NULL){
+        if(type_val == temp->data->type || valeur == NULL)
+            compteur += nb_valeur_sup_col(temp->data, valeur);
+        temp = temp->next;
+    }
+    return compteur;
+}
+
+long long int nb_valeur_inf_cd(CDATAFRAME* cd, void* valeur, TYPE type_val){
+    long long int compteur = 0;
+    lnode * temp = cd->head;
+    while(temp != NULL){
+        if(type_val == temp->data->type || valeur == NULL)
+            compteur += nb_valeur_inf_col(temp->data, valeur);
+        temp = temp->next;
+    }
+    return compteur;
+}
+
+void afficher_nom_col(CDATAFRAME* cd){
+    lnode* temp = cd->head;
+    printf("       ");
+    while (temp != NULL){
+        printf("%15s", temp->data->titre);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+int col_existe_cd(CDATAFRAME* cd, char* nom){
+    lnode * temp = cd->head;
+    while (temp != NULL){
+        if (!strcmp(nom, temp->data->titre))
+            return 1;
+        temp = temp->next;
+    }
+    return 0;
+}
+
+void modif_valeur(CDATAFRAME* cd, char* nom_col, long long int indice_ligne, void* nouv_val, TYPE type_n_v){
+    lnode * temp = cd->head;
+    if (col_existe_cd(cd,nom_col) && indice_ligne < nb_ligne_cd(cd)){
+        while (strcmp(temp->data->titre, nom_col) != 0)
+            temp = temp->next;
+        if (temp->data->type == type_n_v)
+            colonne_modif_valeur(temp->data, indice_ligne, nouv_val, type_n_v);
+        else
+            printf("La modification n'a pas pu être effectuer");
+
+    }
+    else
+        printf("La modification n'a pas pu etre effectuer\n");
+}
+
+void* obtenir_valeur(CDATAFRAME* cd, char* nom_col, long long int indice_ligne){
+    lnode * temp = cd->head;
+    if (col_existe_cd(cd,nom_col) && indice_ligne < nb_ligne_cd(cd)){
+        while (strcmp(temp->data->titre, nom_col) != 0)
+            temp = temp->next;
+        return valeur_pos(temp->data, indice_ligne);
+    }
+    else
+        printf("Veuillez vérifiez vos indices ils n'existent pas dans ce dataframe\n");
+    return NULL;
+}
+
+int existe_cd(CDATAFRAME* cd, void* valeur, TYPE type_n_v){
+    lnode * temp = cd->head;
+    while (temp != NULL){
+        if(temp->data->type == type_n_v){
+            if(existe_col(temp->data, valeur))
+                return 1;
+        }
+        temp = temp->next;
+    }
+    return 0;
+}
+
+void renommer_col(CDATAFRAME* cd, char* ancien_nom, char* nouveau_nom){
+    lnode * temp = cd->head;
+    if(col_existe_cd(cd, ancien_nom) && !col_existe_cd(cd, nouveau_nom)){
+        while(strcmp(temp->data->titre, ancien_nom) != 0)
+            temp = temp->next;
+        strcpy(temp->data->titre, nouveau_nom);
+    }
+    else
+        printf("Erreur pendant la modification du nom de la colonne veuillez verifier les informations transmises\n");
+}
+
+void suppr_colonne(CDATAFRAME* cd, char* nom){
+    if(col_existe_cd(cd,nom)){
+        lnode * temp = cd->head;
+        while(strcmp(temp->data->titre, nom) != 0)
+            temp = temp->next;
+        lst_delete_lnode(cd, temp);
+    }
+    else
+        printf("Cette Colonne n'existe pas\n");
+}
+
+void afficher_ligne_entre(CDATAFRAME* cd, long long int debut, long long int fin){
+    if (cd != NULL) {
+        lnode *temp;
+        char str[100];
+        if (debut>fin){
+            long long int val_temp = debut;
+            debut = fin;
+            fin = val_temp;
+        }
+        fin ++;
+        if(debut >= 0 && fin >= 0 && debut < nb_ligne_cd(cd) && fin < nb_ligne_cd(cd)) {
+            for (long long i = debut; i < fin; i++) {
+                temp = cd->head;
+                printf("[%7lld]  ", i);
+                while (temp != NULL) {
+                    if (temp->data->donnees[i] != NULL) {
+                        convert_value(temp->data, i, str, 100);
+                        printf("%15s  ", str);
+                    } else
+                        printf("%15s  ", "NULL");
+                    temp = temp->next;
+                }
+                printf("\n");
+            }
+        }
+        else
+            printf("Erreur les indices fournies ne sont pas bon\n");
+    }
+    else
+        printf("Ce Dataframe n'existe pas\n");
+}
+
+void afficher_colonne_entre(CDATAFRAME* cd, char* nom_debut, char* nom_fin){
+    if (cd != NULL) {
+        lnode *temp = cd->head;
+        char str[100];
+        lnode * col_debut;
+        lnode* col_fin;
+        if(col_existe_cd(cd,nom_debut) && col_existe_cd(cd,nom_fin)){
+            while(strcmp(temp->data->titre, nom_debut) != 0 || strcmp(temp->data->titre, nom_fin) != 0){
+                if (strcmp(temp->data->titre, nom_debut) == 0) {
+                    col_debut = temp;
+                    while (strcmp(temp->data->titre, nom_fin) != 0)
+                        temp = temp->next;
+                    col_fin = temp;
+                }
+                else if (strcmp(temp->data->titre, nom_fin) == 0) {
+                    col_debut = temp;
+                    while (strcmp(temp->data->titre, nom_debut) != 0)
+                        temp = temp->next;
+                    col_fin = temp;
+                }
+            }
+            for (long long i = 0; i < nb_ligne_cd(cd); i++) {
+                temp = col_debut;
+                printf("[%7lld]  ", i);
+                while (temp != col_fin) {
+                    if (temp->data->donnees[i] != NULL) {
+                        convert_value(temp->data, i, str, 100);
+                        printf("%15s  ", str);
+                    } else
+                        printf("%15s  ", "NULL");
+                    temp = temp->next;
+                }
+                printf("\n");
+            }
+        }
+        else
+            printf("Erreur les indices fournies ne sont pas bon\n");
+    }
+    else
+        printf("Ce Dataframe n'existe pas\n");
 }

@@ -137,5 +137,6 @@ int chercher_val_col_trier(COLONNE* col, void* valeur);
 void allocation_initial(COLONNE* col);
 void reallocation(COLONNE* col);
 void colonne_supprimer_indice(COLONNE* col, long long int indice);
-
+void colonne_modif_valeur(COLONNE* col, long long int indice, void* nouv_val, TYPE type);
+int existe_col(COLONNE* col, void* val);
 #endif

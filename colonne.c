@@ -344,3 +344,89 @@ void colonne_supprimer_indice(COLONNE* col, long long int indice){
         col->tlog--;
     }
 }
+
+void colonne_modif_valeur(COLONNE* col, long long int indice, void* nouv_val, TYPE type_n_v){
+    if (col->type == type_n_v){
+        switch (col->type){
+            case NULLVAL:
+                break;
+            case INT:
+                *((int*)col->donnees[indice]) = *((int*)nouv_val);
+                break;
+            case CHAR:
+                *((char*)col->donnees[indice]) = *((char*)nouv_val);
+                break;
+            case FLOAT:
+                *((float*)col->donnees[indice]) = *((float*)nouv_val);
+                break;
+            case DOUBLE:
+                *((double*)col->donnees[indice]) = *((double*)nouv_val);
+                break;
+            case STRING:
+                strcpy((char*)col->donnees[indice], (char*)nouv_val);
+                break;
+            case STRUCTURE:
+                break;
+            case UINT:
+                *((unsigned int*)col->donnees[indice]) = *((unsigned int*)nouv_val);
+                break;
+        }
+    }
+    else
+        printf("Probleme survenue lors de la modification\n");
+}
+
+int existe_col(COLONNE* col, void* val){
+    if(val != NULL) {
+        switch (col->type) {
+            case INT:
+                for (long long int i = 0; i < col->tlog; i++) {
+                    if (*((int *) col->donnees[i]) == *((int *) val))
+                        return 1;
+                }
+                break;
+            case CHAR:
+                for (long long int i = 0; i < col->tlog; i++) {
+                    if (*((char *) col->donnees[i]) == *((char *) val))
+                        return 1;
+                }
+                break;
+            case FLOAT:
+                for (long long int i = 0; i < col->tlog; i++) {
+                    if (*((float *) col->donnees[i]) == *((float *) val))
+                        return 1;
+                }
+                break;
+            case DOUBLE:
+                for (long long int i = 0; i < col->tlog; i++) {
+                    if (*((double *) col->donnees[i]) == *((double *) val))
+                        return 1;
+                }
+                break;
+            case UINT:
+                for (long long int i = 0; i < col->tlog; i++) {
+                    if (*((unsigned int *) col->donnees[i]) == *((unsigned int *) val))
+                        return 1;
+                }
+                break;
+            case STRING:
+                for(long long int i = 0; i<col->tlog; i++){
+                    if(!strcmp((char*)val, (char*)col->donnees[i]))
+                        return 1;
+                }
+                break;
+            case NULLVAL:
+                if(col->tlog != 0)
+                    return 1;
+            case STRUCTURE:
+                break;
+        }
+    }
+    else{
+        for(long long int i = 0; i<col->tlog; i++){
+            if(col->donnees[i] == NULL)
+                return 1;
+            }
+    }
+    return 0;
+}
