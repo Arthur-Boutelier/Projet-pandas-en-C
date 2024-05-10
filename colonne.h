@@ -18,7 +18,7 @@ typedef union {
 }COLUMN_TYPE;
 
 typedef struct{
-    char * titre;
+    char titre[15];
     int tmax;
     int tlog;
     COLUMN_TYPE ** donnees;
