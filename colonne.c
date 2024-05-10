@@ -6,12 +6,15 @@
 COLONNE* create_column(TYPE type,char * title)
 {
     COLONNE * ptr=malloc(sizeof (COLONNE));
+
     strcpy(ptr->titre,title);
     ptr->donnees=NULL;
     ptr->type=type;
     ptr->index=NULL;
     ptr->tmax=0;
     ptr->tlog=0;
+    ptr->valid_index=0;
+
     return ptr;
 }
 
@@ -93,10 +96,26 @@ int inserer_valeur(COLONNE* col, void* val)
                 break;
         }
         col->tlog +=1;
+        if (col->index==NULL){
+            col->index=(int*)malloc(sizeof(int)*col->tlog);
+            col->index[col->tlog-1]=col->tlog-1;
+        }
+        else{
+            col->index= realloc(col->index,col->tlog);
+            col->index[col->tlog-1]=col->tlog-1;
+        }
     }
     else{
         *(col->donnees+col->tlog)=NULL;
         col->tlog+=1;
+        if (col->index==NULL){
+            col->index=(int*)malloc(sizeof(int)*col->tlog);
+            col->index[col->tlog-1]=col->tlog-1;
+        }
+        else{
+            col->index= realloc(col->index,col->tlog);
+            col->index[col->tlog-1]=col->tlog-1;
+        }
     }
     return etat;
 }
