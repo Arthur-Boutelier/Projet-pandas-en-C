@@ -24,6 +24,8 @@ typedef struct{
     COLUMN_TYPE ** donnees;
     TYPE type;
     int* index;
+    int valid_index;        /* peut prendre 3 valeurs 0 1 ou -1 */
+    int sort_dir;           /* peut prendre 2 valeurs 0 ou 1*/
 
 
 }COLONNE;
