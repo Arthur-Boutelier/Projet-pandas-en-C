@@ -6,8 +6,12 @@
 COLONNE* create_column(TYPE type,char * title)
 {
     COLONNE * ptr=malloc(sizeof (COLONNE));
-    if (title==NULL){return NULL;}
-    ptr->titre=title;ptr->donnees=NULL; ptr->type=type;ptr->index=NULL;ptr->tmax=0;ptr->tlog=0;
+    strcpy(ptr->titre,title);
+    ptr->donnees=NULL;
+    ptr->type=type;
+    ptr->index=NULL;
+    ptr->tmax=0;
+    ptr->tlog=0;
     return ptr;
 }
 
