@@ -489,3 +489,120 @@ void print_index(COLONNE * col){
     }
     printf("\n");
 }
+
+int search_value_in_column(COLONNE *col, void *val){
+    if(val != NULL){
+        if (col->valid_index != 1){
+            return -1;
+        }
+
+        else{
+            int a = 0;
+            int b = col->tlog - 1;
+            int m = (a + b) / 2;
+            switch (col->type) {
+                case INT:
+                    while (a < b){
+                        if (*(int *) col->donnees[col->index[m]] == *((int *) val)){
+                            return 1;
+                        }
+                        else{
+                            if (*(int *) col->donnees[col->index[m]] > *((int *) val)){
+                                b = m-1;
+                            }
+                            else{
+                                a = m+1;
+                            }
+                        }
+                    }
+                    break;
+
+                case CHAR:
+                    while (a < b){
+                        if (*(char *) col->donnees[col->index[m]] == *((char *) val)){
+                            return 1;
+                        }
+                        else{
+                            if (*(char *) col->donnees[col->index[m]] > *((char *) val)){
+                                b = m-1;
+                            }
+                            else{
+                                a = m+1;
+                            }
+                        }
+                    }
+                    break;
+                case FLOAT:
+                    while (a < b){
+                        if (*(float *) col->donnees[col->index[m]] == *((float *) val)){
+                            return 1;
+                        }
+                        else{
+                            if (*(float *) col->donnees[col->index[m]] > *((float *) val)){
+                                b = m-1;
+                            }
+                            else{
+                                a = m+1;
+                            }
+                        }
+                    }
+                    break;
+                case DOUBLE:
+                    while (a < b){
+                        if (*(double *) col->donnees[col->index[m]] == *((double *) val)){
+                            return 1;
+                        }
+                        else{
+                            if (*(double *) col->donnees[col->index[m]] > *((double *) val)){
+                                b = m-1;
+                            }
+                            else{
+                                a = m+1;
+                            }
+                        }
+                    }
+                    break;
+                case UINT:
+                    while (a < b){
+                        if (*(unsigned int *) col->donnees[col->index[m]] == *((unsigned int *) val)){
+                            return 1;
+                        }
+                        else{
+                            if (*(unsigned int *) col->donnees[col->index[m]] > *((unsigned int *) val)){
+                                b = m-1;
+                            }
+                            else{
+                                a = m+1;
+                            }
+                        }
+                    }
+                    break;
+                case STRING:
+                    while (a < b){
+                        if(!strcmp((char*)val, (char*)col->donnees[m])){
+                            return 1;
+                        }
+                        else{
+                            if(strcmp((char*)val, (char*)col->donnees[m]) == -1){
+                                b = m-1;
+                            }
+                            else{
+                                a = m+1;
+                            }
+                        }
+                    }
+                    break;
+                case NULLVAL:
+                    return 0;
+                    break;
+                case STRUCTURE:
+                    break;
+            }
+            return 0;
+        }
+    }
+    else{
+        return col->donnees[col->index[col->tlog]]==NULL;
+    }
+}
+
