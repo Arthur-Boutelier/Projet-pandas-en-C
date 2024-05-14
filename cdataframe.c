@@ -3,10 +3,16 @@
 #include <stdio.h>
 #include <string.h>
 
-CDATAFRAME* creer_cd(TYPE* type, int size){
+CDATAFRAME* creer_cd(TYPE* type, long long int size){
     CDATAFRAME * cd = lst_create_list();
-    for (int i = 0; i<size; i++){
-        COLONNE * col = create_column(type[i], "");
+    char str[10];
+    for (long long int i = 0; i<size; i++){
+        long long int cmpt = i;
+        do {
+            snprintf(str, 10, "%lld", cmpt++);
+            printf("%d, %s\n", col_existe_cd(cd, str), str);
+        } while (col_existe_cd(cd, str));
+        COLONNE * col = create_column(type[i], str);
         lnode * p_nouv = lst_create_lnode(col);
         lst_insert_tail(cd, p_nouv);
     }
@@ -106,7 +112,7 @@ void remplir_cd(CDATAFRAME* cd) {
                     } while (reponse != 1 && reponse != 0);
                     if (reponse) {
                         printf("Veuillez entrer la valeur : ");
-                        scanf(" %ld", val_double);
+                        scanf(" %lf", val_double);
                         inserer_valeur(temp->data, (void *) val_double);
                     } else
                         inserer_valeur(temp->data, NULL);
@@ -222,6 +228,7 @@ void afficher_cd(CDATAFRAME* cd){
     if (cd != NULL) {
         lnode *temp;
         char str[100];
+        afficher_nom_col(cd);
         for (long long i = 0; i < nb_ligne_cd(cd); i++) {
             temp = cd->head;
             printf("[%7lld]  ", i);
@@ -282,9 +289,9 @@ long long int nb_valeur_inf_cd(CDATAFRAME* cd, void* valeur, TYPE type_val){
 
 void afficher_nom_col(CDATAFRAME* cd){
     lnode* temp = cd->head;
-    printf("       ");
+    printf("           ");
     while (temp != NULL){
-        printf("%15s", temp->data->titre);
+        printf("%15s  ", temp->data->titre);
         temp = temp->next;
     }
     printf("\n");
@@ -363,6 +370,7 @@ void suppr_colonne(CDATAFRAME* cd, char* nom){
 
 void afficher_ligne_entre(CDATAFRAME* cd, long long int debut, long long int fin){
     if (cd != NULL) {
+        afficher_nom_col(cd);
         lnode *temp;
         char str[100];
         if (debut>fin){
@@ -400,24 +408,31 @@ void afficher_colonne_entre(CDATAFRAME* cd, char* nom_debut, char* nom_fin){
         lnode * col_debut;
         lnode* col_fin;
         if(col_existe_cd(cd,nom_debut) && col_existe_cd(cd,nom_fin)){
-            while(strcmp(temp->data->titre, nom_debut) != 0 || strcmp(temp->data->titre, nom_fin) != 0){
-                if (strcmp(temp->data->titre, nom_debut) == 0) {
-                    col_debut = temp;
-                    while (strcmp(temp->data->titre, nom_fin) != 0)
-                        temp = temp->next;
-                    col_fin = temp;
-                }
-                else if (strcmp(temp->data->titre, nom_fin) == 0) {
-                    col_debut = temp;
-                    while (strcmp(temp->data->titre, nom_debut) != 0)
-                        temp = temp->next;
-                    col_fin = temp;
-                }
+            while(strcmp(temp->data->titre, nom_debut) != 0 && strcmp(temp->data->titre, nom_fin) != 0)
+                temp = temp->next;
+            if (strcmp(temp->data->titre, nom_debut) == 0) {
+                col_debut = temp;
+                while (strcmp(temp->data->titre, nom_fin) != 0)
+                    temp = temp->next;
+                col_fin = temp;
             }
+            else {
+                col_debut = temp;
+                while (strcmp(temp->data->titre, nom_debut) != 0)
+                    temp = temp->next;
+                col_fin = temp;
+            }
+            printf("           ");
+            temp = col_debut;
+            while (temp != col_fin->next) {
+                printf("%15s  ", temp->data->titre);
+                temp = temp->next;
+            }
+            printf("\n");
             for (long long i = 0; i < nb_ligne_cd(cd); i++) {
                 temp = col_debut;
                 printf("[%7lld]  ", i);
-                while (temp != col_fin) {
+                while (temp != col_fin->next) {
                     if (temp->data->donnees[i] != NULL) {
                         convert_value(temp->data, i, str, 100);
                         printf("%15s  ", str);

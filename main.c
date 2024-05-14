@@ -13,6 +13,7 @@ int main()
     inserer_valeur(A,NULL);
     inserer_valeur(A,&c);
     inserer_valeur(A,&a);
+
     print_col(A);
     tri_insertion(A);
     printf("\n");
@@ -21,7 +22,7 @@ int main()
 
     /*
     TYPE types[]={INT, INT, INT};
-    CDATAFRAME* cd = creer_cd(types, 2);
+    CDATAFRAME* cd = creer_cd(types, 3);
     remplir_cd(cd);
     afficher_cd(cd);
     afficher_ligne_entre(cd, 0,1);*/

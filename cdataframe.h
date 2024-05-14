@@ -10,7 +10,7 @@ typedef list CDATAFRAME;
  *Entrée: type : Type* : pointeur vers les type présent dans le dataframe
  *       size : int : taille du dataframe
  */
-CDATAFRAME* creer_cd(TYPE* type, int size);
+CDATAFRAME* creer_cd(TYPE* type, long long int size);
 
 /*
 *fonction qui a pour but de remplir un dataframe
