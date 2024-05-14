@@ -96,26 +96,12 @@ int inserer_valeur(COLONNE* col, void* val)
                 break;
         }
         col->tlog +=1;
-        if (col->index==NULL){
-            col->index=(int*)malloc(sizeof(int)*col->tlog);
-            col->index[col->tlog-1]=col->tlog-1;
-        }
-        else{
-            col->index= realloc(col->index,col->tlog);
-            col->index[col->tlog-1]=col->tlog-1;
-        }
+        create_index(col);
     }
     else{
         *(col->donnees+col->tlog)=NULL;
         col->tlog+=1;
-        if (col->index==NULL){
-            col->index=(int*)malloc(sizeof(int)*col->tlog);
-            col->index[col->tlog-1]=col->tlog-1;
-        }
-        else{
-            col->index= realloc(col->index,col->tlog);
-            col->index[col->tlog-1]=col->tlog-1;
-        }
+        create_index(col);
     }
     return etat;
 }
@@ -452,4 +438,54 @@ int existe_col(COLONNE* col, void* val){
             }
     }
     return 0;
+}
+void print_col_index(COLONNE* col){
+    char str[100];
+    for (int i=0;i<col->tlog;i++){
+        if( (col->donnees[col->index[i]])==NULL)
+        {
+            printf("[%d]    NULL\n",i);
+        }
+        else
+        {
+            if (col->type==STRING){
+                printf("[%d]    %s\n",i,(char*)col->donnees[col->index[i]]);
+            }
+            else{
+                convert_value(col,col->index[i],str,100);
+                printf("[%d]    %s\n",i,str);
+            }}
+    }
+}
+void erase_index(COLONNE* col){
+    free(col->index);
+    col->index=NULL;
+    col->valid_index=0;
+}
+void create_index(COLONNE* col){
+    switch (col->valid_index) {
+        case 0:
+            col->index=(int*)malloc(sizeof(int)*col->tlog);
+            for (int i=0;i<col->tlog;i++) {
+                col->index[i] = i;
+            }
+            break;
+        case 1:
+            col->index= realloc(col->index,(sizeof(int))*col->tlog);
+            col->index[col->tlog-1]=col->tlog-1;
+            col->valid_index=-1;
+            break;
+        case -1:
+            col->index= realloc(col->index,(sizeof(int))*col->tlog);
+            col->index[col->tlog-1]=col->tlog-1;
+            break;
+    }
+
+
+}
+void print_index(COLONNE * col){
+    for (int i=0;i<col->tlog;i++){
+        printf("%d ",col->index[i]);
+    }
+    printf("\n");
 }
