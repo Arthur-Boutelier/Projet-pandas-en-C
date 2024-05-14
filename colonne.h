@@ -141,4 +141,8 @@ void reallocation(COLONNE* col);
 void colonne_supprimer_indice(COLONNE* col, long long int indice);
 void colonne_modif_valeur(COLONNE* col, long long int indice, void* nouv_val, TYPE type);
 int existe_col(COLONNE* col, void* val);
+void print_col_index(COLONNE* col);
+void erase_index(COLONNE* col);
+void create_index(COLONNE* col);
+void print_index(COLONNE * col);
 #endif
