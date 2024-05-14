@@ -15,4 +15,5 @@ add_executable(Projet_C
         sort.h
         sort.c
         main.c
-        colonne.c)
+        colonne.c
+test.csv)

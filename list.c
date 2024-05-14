@@ -99,8 +99,9 @@ void lst_delete_lnode(list * lst, lnode * ptr) {
     free(ptr);
 }
 void lst_erase(list * lst) {
-    if (lst->head == NULL)
+    if (lst->head == NULL) {
         return;
+    }
     while (lst->head != lst->tail) {
         lst->head = lst->head->next;
         free(lst->head->prev);

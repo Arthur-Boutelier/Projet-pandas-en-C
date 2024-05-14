@@ -10,7 +10,6 @@ CDATAFRAME* creer_cd(TYPE* type, long long int size){
         long long int cmpt = i;
         do {
             snprintf(str, 10, "%lld", cmpt++);
-            printf("%d, %s\n", col_existe_cd(cd, str), str);
         } while (col_existe_cd(cd, str));
         COLONNE * col = create_column(type[i], str);
         lnode * p_nouv = lst_create_lnode(col);
@@ -155,15 +154,16 @@ void suppr_cd(CDATAFRAME** cd){
 
 void ajouter_colonne(CDATAFRAME* cd, COLONNE* col){
     long long int taille = nb_ligne_cd(cd);
+    printf("taille = %lld\n", taille);
     lnode * temp = cd->head;
     if (taille < col->tlog){
         while (temp != NULL){
             for (long long int i = 0; i<col->tlog-taille; i++)
                 inserer_valeur(temp->data, NULL);
-        temp = temp->next;
+            temp = temp->next;
         }
     }
-    else if(taille>col->tlog){
+    else if(taille>(col->tlog)){
         for (long long int i = 0; i<taille-col->tlog; i++)
             inserer_valeur(col, NULL);
     }
@@ -221,6 +221,9 @@ long long int nb_colonne_cd(CDATAFRAME* cd){
 }
 
 long long int nb_ligne_cd(CDATAFRAME* cd){
+    if(cd->head == NULL){
+        return 0;
+    }
     return cd->head->data->tlog;
 }
 
@@ -449,3 +452,104 @@ void afficher_colonne_entre(CDATAFRAME* cd, char* nom_debut, char* nom_fin){
     else
         printf("Ce Dataframe n'existe pas\n");
 }
+
+CDATAFRAME* csv_vers_cd(char *nom_fichier, TYPE* dftype, int taille){
+    void* val = malloc(sizeof(TYPE*));
+    FILE* fichier;
+    fichier = fopen(nom_fichier, "rt");
+    CDATAFRAME * cd = creer_cd(dftype, taille);
+    CDATAFRAME* cd_intermediaire ;
+    COLONNE * col;
+    char ligne[100];
+    char nom[10];
+    char* mot;
+    const char * separateur = " ,-!";
+    if (fichier == NULL){
+        printf("Le fichier n'existe pas");
+        return NULL;
+    }
+    while (fgets(ligne, 100, fichier) != NULL){
+        cd_intermediaire = creer_cd(dftype, 0);
+        mot = strtok(ligne, separateur);
+        for(long long int i = 0;i<taille; i++){
+            snprintf(nom,10, "%lld", i);
+            col = create_column(dftype[i], nom);
+            switch (dftype[i]) {
+                case NULLVAL:
+                    inserer_valeur(col, NULL);
+                    ajouter_colonne(cd_intermediaire, col);
+                    break;
+                case INT:
+                    *((int *) val) = atoi(mot);
+                    inserer_valeur(col, val);
+                    ajouter_colonne(cd_intermediaire, col);
+                    break;
+                case FLOAT:
+                    *(float *) val = strtof(mot, NULL);
+                    inserer_valeur(col, val);
+                    ajouter_colonne(cd_intermediaire, col);
+                    break;
+                case CHAR:
+                    *(char *) val = mot[0];
+                    inserer_valeur(col, val);
+                    ajouter_colonne(cd_intermediaire, col);
+                    break;
+                case DOUBLE:
+                    *(double *) val = strtol(mot, NULL, 10);
+                    inserer_valeur(col, val);
+                    ajouter_colonne(cd_intermediaire, col);
+                    break;
+                case STRING:
+                    inserer_valeur(col, mot);
+                    ajouter_colonne(cd_intermediaire, col);
+                    break;
+                case UINT:
+                    *(unsigned int *) val = strtoul(mot, NULL, 10);
+                    inserer_valeur(col, val);
+                    ajouter_colonne(cd_intermediaire, col);
+                    break;
+                case STRUCTURE:
+                    inserer_valeur(col, NULL);
+                    ajouter_colonne(cd_intermediaire, col);
+                    break;
+
+            }
+            mot = strtok(NULL, separateur);
+        }
+        mot = strtok(NULL, separateur);
+        ajouter_ligne(cd, cd_intermediaire);
+        suppr_cd(&cd_intermediaire);
+    }
+    fclose(fichier);
+    free(val);
+    return cd;
+}
+
+void cd_vers_csv(CDATAFRAME* cd, char* nom_fichier){
+    FILE* fichier;
+    fichier = fopen(nom_fichier, "w");
+    if (cd != NULL){
+        lnode *temp;
+        char str[100];
+        for (long long i = 0; i < nb_ligne_cd(cd); i++) {
+            temp = cd->head;
+            while (temp != NULL) {
+                if (temp->data->donnees[i] != NULL) {
+                    convert_value(temp->data, i, str, 100);
+                    fputs(str, fichier);
+                }
+                else
+                    fputs("NULL", fichier);
+                temp = temp->next;
+                if(temp == NULL)
+                    fputs("\n", fichier);
+                else
+                    fputs(", ", fichier);
+            }
+        }
+    }
+    else
+        printf("Ce Dataframe n'existe pas\n");
+    fclose(fichier);
+}
+
