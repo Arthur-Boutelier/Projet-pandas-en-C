@@ -4,7 +4,7 @@
 #include "sort.h"
 int main()
 {
-    int a=9,b=10,c=15;
+    int  a=9,b=10,c=15;
     void* u = NULL;
     COLONNE * A= create_column(INT,"caca");
     printf("%s\n",A->titre);
@@ -13,13 +13,16 @@ int main()
     inserer_valeur(A,NULL);
     inserer_valeur(A,&c);
     inserer_valeur(A,&a);
-
     print_col(A);
-    tri_insertion(A);
+
+    sort(A,DESC);
+    print_col_index(A);
+    inserer_valeur(A,&a);
+
     printf("\n");
     print_col_index(A);
-
-
+    sort(A,DESC);
+    print_col_index(A);
     /*
     TYPE types[]={INT, INT, INT};
     CDATAFRAME* cd = creer_cd(types, 3);
