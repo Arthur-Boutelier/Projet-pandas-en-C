@@ -4,7 +4,15 @@
 #include "sort.h"
 int main()
 {
-    int  a=9,b=10,c=15;
+
+
+    TYPE type [] = {INT,NULLVAL,CHAR, NULLVAL};
+    char nom_fichier[] = "C:\\Users\\arthu\\CLionProjects\\Projet-C\\test.csv";
+    CDATAFRAME * cd = csv_vers_cd(nom_fichier, type, 4);
+    afficher_cd(cd);
+    cd_vers_csv(cd, "C:\\Users\\arthu\\CLionProjects\\Projet-C\\test_2.csv");
+    int a=9,b=10,c=15;
+
     void* u = NULL;
     COLONNE * A= create_column(INT,"caca");
     printf("%s\n",A->titre);

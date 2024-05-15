@@ -161,4 +161,6 @@ long long int nb_valeur_sup_cd(CDATAFRAME* cd, void* valeur, TYPE type_val);
 long long int nb_valeur_egal_cd(CDATAFRAME* cd, void* valeur, TYPE type);
 
 int col_existe_cd(CDATAFRAME* cd, char* nom);
+CDATAFRAME* csv_vers_cd(char *nom_fichier, TYPE* dftype, int taille);
+void cd_vers_csv(CDATAFRAME* cd, char* nom_fichier);
 #endif //PROJET_C_CDATAFRAME_H
