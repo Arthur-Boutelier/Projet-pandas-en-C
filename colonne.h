@@ -145,4 +145,5 @@ void print_col_index(COLONNE* col);
 void erase_index(COLONNE* col);
 void create_index(COLONNE* col);
 void print_index(COLONNE * col);
+int check_index(COLONNE *col);
 #endif
