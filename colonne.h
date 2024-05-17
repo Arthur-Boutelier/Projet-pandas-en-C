@@ -146,4 +146,6 @@ void erase_index(COLONNE* col);
 void create_index(COLONNE* col);
 void print_index(COLONNE * col);
 int check_index(COLONNE *col);
+int search_value_in_column(COLONNE *col, void *val);
+
 #endif
