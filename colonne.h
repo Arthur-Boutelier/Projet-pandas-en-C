@@ -34,7 +34,7 @@ typedef struct{
     int nbCol;
 }CDataframe;
 
-
+#include "sort.h"
 
 
 COLONNE* create_column(TYPE type, char * nom);

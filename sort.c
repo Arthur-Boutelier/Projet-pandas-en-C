@@ -2,8 +2,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+
 void sort(COLONNE* col, int dir){
-    col->sort_dir=dir;
+    if (dir != col->sort_dir){
+        col->sort_dir=dir;
+        col->valid_index = 0;
+    }
     switch (col->valid_index) {
         case 1:
             break;

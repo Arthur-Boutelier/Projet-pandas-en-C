@@ -154,7 +154,6 @@ void suppr_cd(CDATAFRAME** cd){
 
 void ajouter_colonne(CDATAFRAME* cd, COLONNE* col){
     long long int taille = nb_ligne_cd(cd);
-    printf("taille = %lld\n", taille);
     lnode * temp = cd->head;
     if (taille < col->tlog){
         while (temp != NULL){
@@ -553,3 +552,25 @@ void cd_vers_csv(CDATAFRAME* cd, char* nom_fichier){
     fclose(fichier);
 }
 
+void afficher_cd_par_index(CDATAFRAME* cd, COLONNE* col){
+    if (cd != NULL) {
+        lnode *temp;
+        char str[100];
+        afficher_nom_col(cd);
+        for (long long i = 0; i < nb_ligne_cd(cd); i++) {
+            temp = cd->head;
+            printf("[%7lld]  ", i);
+            while (temp != NULL) {
+                if (temp->data->donnees[col->index[i]] != NULL) {
+                    convert_value(temp->data, col->index[i], str, 100);
+                    printf("%15s  ", str);
+                } else
+                    printf("%15s  ", "NULL");
+                temp = temp->next;
+            }
+            printf("\n");
+        }
+    }
+    else
+        printf("Ce Dataframe n'existe pas\n");
+}

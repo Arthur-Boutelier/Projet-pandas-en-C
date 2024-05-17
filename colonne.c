@@ -14,6 +14,7 @@ COLONNE* create_column(TYPE type,char * title)
     ptr->tmax=0;
     ptr->tlog=0;
     ptr->valid_index=0;
+    ptr->sort_dir = 0;
 
     return ptr;
 }
@@ -45,6 +46,10 @@ void allocation_initial(COLONNE* col){
         case NULLVAL:
             col->donnees = (COLUMN_TYPE**) malloc(taille_realloc*sizeof (NULLVAL));
     }
+    col->index=(int*)malloc(sizeof(int)*taille_realloc);
+    for (int i=0;i<taille_realloc; i++) {
+        col->index[i] = i;
+    }
     col->tmax = 256;
 }
 
@@ -52,6 +57,9 @@ void reallocation(COLONNE* col){
     COLUMN_TYPE ** ptr;
     ptr = realloc(col->donnees, col->tmax+taille_realloc);
     col->donnees = ptr;
+    int* temp = realloc(col->index,(col->tmax + sizeof(int))*taille_realloc);
+    if (temp != NULL)
+        col->index = temp;
 }
 int inserer_valeur(COLONNE* col, void* val)
 {
@@ -96,13 +104,14 @@ int inserer_valeur(COLONNE* col, void* val)
                 break;
         }
         col->tlog +=1;
-        create_index(col);
     }
     else{
         *(col->donnees+col->tlog)=NULL;
         col->tlog+=1;
-        create_index(col);
     }
+    if (col->index)
+        col->valid_index = -1;
+    actualiser_index(col);
     return etat;
 }
 
@@ -112,6 +121,7 @@ void supprimer_colonne(COLONNE *col)
     for (i = col->tlog;i>0;i--){
         free(col->donnees[i-1]);
     }
+    free(col->index);
     free(col->donnees);
     free(col);
 }
@@ -458,31 +468,9 @@ void print_col_index(COLONNE* col){
     }
 }
 void erase_index(COLONNE* col){
-    free(col->index);
-    col->index=NULL;
     col->valid_index=0;
 }
-void create_index(COLONNE* col){
-    switch (col->valid_index) {
-        case 0:
-            col->index=(int*)malloc(sizeof(int)*col->tlog);
-            for (int i=0;i<col->tlog;i++) {
-                col->index[i] = i;
-            }
-            break;
-        case 1:
-            col->index= realloc(col->index,(sizeof(int))*col->tlog);
-            col->index[col->tlog-1]=col->tlog-1;
-            col->valid_index=-1;
-            break;
-        case -1:
-            col->index= realloc(col->index,(sizeof(int))*col->tlog);
-            col->index[col->tlog-1]=col->tlog-1;
-            break;
-    }
 
-
-}
 void print_index(COLONNE * col){
     for (int i=0;i<col->tlog;i++){
         printf("%d ",col->index[i]);
@@ -617,4 +605,6 @@ int search_value_in_column(COLONNE *col, void *val){
     }
 }
 
-
+void actualiser_index(COLONNE* col) {
+    sort(col, col->sort_dir);
+}
