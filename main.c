@@ -22,7 +22,7 @@ int main()
     inserer_valeur(A,&c);
     inserer_valeur(A,&a);
     print_col(A);
-
+    printf("\n");
     sort(A,DESC);
     print_col_index(A);
     inserer_valeur(A,&a);
@@ -30,6 +30,7 @@ int main()
     printf("\n");
     print_col_index(A);
     sort(A,DESC);
+    printf("\n");
     print_col_index(A);
     /*
     TYPE types[]={INT, INT, INT};

@@ -490,6 +490,17 @@ void print_index(COLONNE * col){
     printf("\n");
 }
 
+int check_index(COLONNE *col){
+    if (col->index==NULL){
+        return 0;
+    }
+    if (col->valid_index==1){
+        return 1;
+    }
+    return -1;
+}
+
+
 int search_value_in_column(COLONNE *col, void *val){
     if(val != NULL){
         if (col->valid_index != 1){
@@ -605,4 +616,5 @@ int search_value_in_column(COLONNE *col, void *val){
         return col->donnees[col->index[col->tlog]]==NULL;
     }
 }
+
 

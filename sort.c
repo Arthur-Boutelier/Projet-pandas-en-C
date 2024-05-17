@@ -8,11 +8,9 @@ void sort(COLONNE* col, int dir){
         case 1:
             break;
         case 0:
-            printf("quick\n");
             tri_quicksort(col);
             break;
         case -1:
-            printf("insert\n");
             tri_insertion(col);
             break;
     }
