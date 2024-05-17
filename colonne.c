@@ -146,6 +146,7 @@ void print_col(COLONNE *col)
                 printf("[%d]    %s\n",i,str);
             }}
     }
+    printf("\n");
 }
 void convert_value(COLONNE * col , unsigned long long int indice, char* str, int taille)
 {
@@ -466,6 +467,7 @@ void print_col_index(COLONNE* col){
                 printf("[%d]    %s\n",i,str);
             }}
     }
+    printf("\n");
 }
 void erase_index(COLONNE* col){
     col->valid_index=0;

@@ -101,50 +101,41 @@ long long int nb_valeur_inf_col(COLONNE* col, void* valeur);
  */
 long long int nb_valeur_sup_col(COLONNE* col, void* valeur);
 
-
-/*
- * Cette fonction permet d'afficher une colonne trié
- * Entrée : col : COLONNE*, pointeur visant la colonne
- * Sortie : void
- */
-void print_colonne_par_index(COLONNE* col);
-
-/*
- * Cette fonction permet de supprimer les index
- * Entrée : col : COLONNE*, pointeur visant la colonne
- * Sortie : void
- */
-void supprimer_index(COLONNE* col);
-
-/*
- * Cette fonction permet de vérifier si une colonne a été trié
- * Entrée : col : COLONNE*, pointeur visant la colonne
- * Sortie : int : 1 si trié 0 sinon
- */
-int verifier_index(COLONNE* col);
-
 /*
  * Cette fonction permet de re-trier une colonne ayant déjà été trié par le passé
  * Entrée : col : COLONNE*, pointeur visant la colonne
  * Sortie : void
  */
 void actualiser_index(COLONNE* col);
-
-/*
- * Cette fonction permet de rehercher une valeur dans une colonne ayant été trié
- * Entrée : col : COLONNE*, pointeur visant la colonne
- * Sortie : int
- */
-int chercher_val_col_trier(COLONNE* col, void* valeur);
 void allocation_initial(COLONNE* col);
 void reallocation(COLONNE* col);
 void colonne_supprimer_indice(COLONNE* col, long long int indice);
 void colonne_modif_valeur(COLONNE* col, long long int indice, void* nouv_val, TYPE type);
 int existe_col(COLONNE* col, void* val);
+/*
+ * Fonction qui affiche les valeurs d'une colonne en fonction de son index
+ * Sortie: void
+ * Entrée: col: COLONNE*: pointeur sur une colonne
+ */
 void print_col_index(COLONNE* col);
+/*
+ * Fonction qui supprime totalement l'index d'une colonne
+ * Sortie: void
+ * Entrée: col: COLONNE*: pointeur sur une colonne
+ */
 void erase_index(COLONNE* col);
 void create_index(COLONNE* col);
+/*
+ * Fonction rajoutée pour afficher les valeurs de l'indice d'une colonne
+ * Sortie: void
+ * Entrée: col: COLONNE* : pointeur sur une colonne
+ */
 void print_index(COLONNE * col);
+/*
+ * Fonction qui regarde si l'index est correct
+ * Sortie: int: 1,-1 ou 0
+ * Entrée: col: COLONNE* : pointeur sur une colonne
+ */
 int check_index(COLONNE *col);
 int search_value_in_column(COLONNE *col, void *val);
 
