@@ -2,8 +2,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+
 void sort(COLONNE* col, int dir){
-    col->sort_dir=dir;          //permet de mémoriser la direction du tri directement dans la colonne
+
+    if (dir != col->sort_dir){
+        col->sort_dir=dir;
+        col->valid_index = 0;
+    }
     switch (col->valid_index) { //effectue le tri en fonction de valid index
         case 1:
             break;
