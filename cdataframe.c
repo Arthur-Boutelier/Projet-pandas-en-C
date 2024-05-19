@@ -11,7 +11,7 @@ CDATAFRAME* creer_cd(TYPE* type, long long int size){
         do {
             snprintf(str, 10, "%lld", cmpt++); // transforme cmpt en str et l'incremente
         } while (col_existe_cd(cd, str)); // vérifie si le nom est déja pris
-        COLONNE * col = create_column(type[i], str);
+        COLONNE * col = creer_colonne(type[i], str);
         lnode * p_nouv = lst_create_lnode(col);
         lst_insert_tail(cd, p_nouv);
     }
@@ -236,7 +236,7 @@ void afficher_cd(CDATAFRAME* cd){
             printf("[%7lld]  ", i);
             while (temp != NULL) { // Pour chaque ligne on parcourt les colonnes
                 if (temp->data->donnees[i] != NULL) {
-                    convert_value(temp->data, i, str, 100);// on récupere un str contenant la valeur
+                    convert_val(temp->data, i, str, 100);// on récupere un str contenant la valeur
                     printf("%15s  ", str);
                 } else
                     printf("%15s  ", "NULL");
@@ -387,7 +387,7 @@ void afficher_ligne_entre(CDATAFRAME* cd, long long int debut, long long int fin
                 printf("[%7lld]  ", i);
                 while (temp != NULL) { // on parcourt les colonne
                     if (temp->data->donnees[i] != NULL) {
-                        convert_value(temp->data, i, str, 100); // on recupere un string de la valeur
+                        convert_val(temp->data, i, str, 100); // on recupere un string de la valeur
                         printf("%15s  ", str);
                     } else
                         printf("%15s  ", "NULL");
@@ -472,7 +472,7 @@ CDATAFRAME* csv_vers_cd(char *nom_fichier, TYPE* dftype, int taille){
         mot = strtok(ligne, separateur); // on prend le 1er mot de la ligne (caractere jusqu'au premier delimiteur)
         for(long long int i = 0;i<taille; i++){ // on cree des taille colonne
             snprintf(nom,10, "%lld", i);
-            col = create_column(dftype[i], nom);
+            col = creer_colonne(dftype[i], nom);
             switch (dftype[i]) { // En fonction du type on insere la valeur de mot dedans
                 case NULLVAL:
                     inserer_valeur(col, NULL);
@@ -533,7 +533,7 @@ void cd_vers_csv(CDATAFRAME* cd, char* nom_fichier){
             temp = cd->head;
             while (temp != NULL) { // on parcourt les colonnes
                 if (temp->data->donnees[i] != NULL) {
-                    convert_value(temp->data, i, str, 100); // on convertit la valeur du croissement ligne/colonne en str
+                    convert_val(temp->data, i, str, 100); // on convertit la valeur du croissement ligne/colonne en str
                     fputs(str, fichier); // on l'ecrit dans le cd
                 }
                 else
@@ -561,7 +561,7 @@ void afficher_cd_par_index(CDATAFRAME* cd, COLONNE* col){
             printf("[%7lld]  ", i);
             while (temp != NULL) { // on parcourt les colonnes
                 if (temp->data->donnees[col->index[i]] != NULL) { // parcourt en fonction de l'index
-                    convert_value(temp->data, col->index[i], str, 100);
+                    convert_val(temp->data, col->index[i], str, 100);
                     printf("%15s  ", str);
                 } else
                     printf("%15s  ", "NULL");

@@ -119,7 +119,9 @@ void actualiser_index(COLONNE* col);
  */
 void allocation_initial(COLONNE* col);
 /*
- *
+ *Fonction qui quand une colonne est pleine rajoute 256 vide dans cette derniere
+ * Entrée: col: COLONNE*: pointeur sur la colonne a agrandir
+ * Sortie: void
  */
 void reallocation(COLONNE* col);
 /*

@@ -12,7 +12,7 @@ int main()
     afficher_cd(cd);
     cd_vers_csv(cd, "C:\\Users\\arthu\\CLionProjects\\Projet-C\\test_2.csv");
     print_index(cd->head->data);
-    sort(cd->head->data, ASC);
+    tri(cd->head->data, ASC);
     print_index(cd->head->data);
     renommer_col(cd, "1", "2");
     afficher_cd_par_index(cd, cd->head->next->data);
