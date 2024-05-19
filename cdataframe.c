@@ -178,7 +178,7 @@ void ajouter_ligne(CDATAFRAME* cd, CDATAFRAME* cd_2){
     if (taille_1 < taille_2){ // cas ou plus de colonne dans le 2nd cd que dans le 1er -> on rajoute des colonnes dans le 1er dataframe
         long long int ecart_taille = taille_2 - taille_1;
         for (long long int i = 0; i<ecart_taille; i++){
-            COLONNE * nouv_col = create_column(NULLVAL, "");
+            COLONNE * nouv_col = creer_colonne(NULLVAL, "");
             for (long long int j = 0; j<temp_1->data->tlog; j++)
                 inserer_valeur(nouv_col, NULL);
             ajouter_colonne(cd, nouv_col);
@@ -187,7 +187,7 @@ void ajouter_ligne(CDATAFRAME* cd, CDATAFRAME* cd_2){
     else if(taille_1 > taille_2){ // cas ou plus de colonne dans le 1er dataframe que le 2nd -> On rajoute des colonnes dans le 2nd
         long long int ecart_taille = taille_1 - taille_2;
         for (long long int i = 0; i<ecart_taille; i++){
-            COLONNE * nouv_col = create_column(NULLVAL, "");
+            COLONNE * nouv_col = creer_colonne(NULLVAL, "");
             for (long long int j = 0; j<temp_2->data->tlog; j++)
                 inserer_valeur(nouv_col, NULL);
             ajouter_colonne(cd_2, nouv_col);
@@ -436,7 +436,7 @@ void afficher_colonne_entre(CDATAFRAME* cd, char* nom_debut, char* nom_fin){
                 printf("[%7lld]  ", i);
                 while (temp != col_fin->next) {
                     if (temp->data->donnees[i] != NULL) {
-                        convert_value(temp->data, i, str, 100);
+                        convert_val(temp->data, i, str, 100);
                         printf("%15s  ", str);
                     } else
                         printf("%15s  ", "NULL");
@@ -473,7 +473,7 @@ CDATAFRAME* csv_vers_cd(char *nom_fichier, TYPE* dftype, int taille){
         for(long long int i = 0;i<taille; i++){ // on cree des taille colonne
             snprintf(nom,10, "%lld", i);
             col = create_column(dftype[i], nom);
-            switch (dftype[i]) { // on fonction du type on insere la valeur de mot dedans
+            switch (dftype[i]) { // En fonction du type on insere la valeur de mot dedans
                 case NULLVAL:
                     inserer_valeur(col, NULL);
                     ajouter_colonne(cd_intermediaire, col);
