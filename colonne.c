@@ -400,8 +400,6 @@ void colonne_modif_valeur(COLONNE* col, long long int indice, void* nouv_val, TY
             }
         }
     }
-    else
-        printf("Probleme survenue lors de la modification\n");
 }
 
 int existe_col(COLONNE* col, void* val){

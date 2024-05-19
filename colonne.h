@@ -119,7 +119,9 @@ void actualiser_index(COLONNE* col);
  */
 void allocation_initial(COLONNE* col);
 /*
- *
+ *Fonction qui quand une colonne est pleine rajoute 256 vide dans cette derniere
+ * Entrée: col: COLONNE*: pointeur sur la colonne a agrandir
+ * Sortie: void
  */
 void reallocation(COLONNE* col);
 /*
@@ -179,5 +181,4 @@ int verif_index(COLONNE *col);
  *                1 si la valeur est dans la colonne
  */
 int chercher_val_col_dicho(COLONNE *col, void *val);
-
 #endif
