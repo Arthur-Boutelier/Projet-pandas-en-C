@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #define taille_realloc 256
-COLONNE* create_column(TYPE type,char * title)
+COLONNE* creer_colonne(TYPE type,char * title)
 {
     COLONNE * ptr=malloc(sizeof (COLONNE));
 
@@ -14,7 +14,7 @@ COLONNE* create_column(TYPE type,char * title)
     ptr->tmax=0;
     ptr->tlog=0;
     ptr->valid_index=0;
-    ptr->sort_dir = 0;
+    ptr->tri_dir = 0;
 
     return ptr;
 }
@@ -142,13 +142,13 @@ void print_col(COLONNE *col)
                 printf("[%d]    %s\n",i,(char*)col->donnees[i]);
             }
             else{
-                convert_value(col,i,str,100);
+                convert_val(col,i,str,100);
                 printf("[%d]    %s\n",i,str);
             }}
     }
     printf("\n");
 }
-void convert_value(COLONNE * col , unsigned long long int indice, char* str, int taille)
+void convert_val(COLONNE * col , unsigned long long int indice, char* str, int taille)
 {
     switch(col->type){
         case INT:
@@ -463,13 +463,13 @@ void print_col_index(COLONNE* col){
                 printf("[%d]    %s\n",i,(char*)col->donnees[col->index[i]]);
             }
             else{
-                convert_value(col,col->index[i],str,100);
+                convert_val(col,col->index[i],str,100);
                 printf("[%d]    %s\n",i,str);
             }}
     }
     printf("\n");
 }
-void erase_index(COLONNE* col){
+void effacer_index(COLONNE* col){
     col->valid_index=0;
 }
 
@@ -480,7 +480,7 @@ void print_index(COLONNE * col){
     printf("\n");
 }
 
-int check_index(COLONNE *col){
+int verif_index(COLONNE *col){
     if (col->index==NULL){
         return 0;
     }
@@ -491,7 +491,7 @@ int check_index(COLONNE *col){
 }
 
 
-int search_value_in_column(COLONNE *col, void *val){
+int chercher_val_col_dicho(COLONNE *col, void *val){
     if(val != NULL){
         if (col->valid_index != 1){
             return -1;
@@ -595,7 +595,6 @@ int search_value_in_column(COLONNE *col, void *val){
                     break;
                 case NULLVAL:
                     return 0;
-                    break;
                 case STRUCTURE:
                     break;
             }
@@ -608,5 +607,5 @@ int search_value_in_column(COLONNE *col, void *val){
 }
 
 void actualiser_index(COLONNE* col) {
-    sort(col, col->sort_dir);
+    tri(col, col->tri_dir);
 }

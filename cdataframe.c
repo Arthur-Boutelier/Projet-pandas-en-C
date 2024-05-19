@@ -11,7 +11,7 @@ CDATAFRAME* creer_cd(TYPE* type, long long int size){
         do {
             snprintf(str, 10, "%lld", cmpt++);
         } while (col_existe_cd(cd, str));
-        COLONNE * col = create_column(type[i], str);
+        COLONNE * col = creer_colonne(type[i], str);
         lnode * p_nouv = lst_create_lnode(col);
         lst_insert_tail(cd, p_nouv);
     }
@@ -178,7 +178,7 @@ void ajouter_ligne(CDATAFRAME* cd, CDATAFRAME* cd_2){
     if (taille_1 < taille_2){
         long long int ecart_taille = taille_2 - taille_1;
         for (long long int i = 0; i<ecart_taille; i++){
-            COLONNE * nouv_col = create_column(NULLVAL, "");
+            COLONNE * nouv_col = creer_colonne(NULLVAL, "");
             for (long long int j = 0; j<temp_1->data->tlog; j++)
                 inserer_valeur(nouv_col, NULL);
             ajouter_colonne(cd, nouv_col);
@@ -187,7 +187,7 @@ void ajouter_ligne(CDATAFRAME* cd, CDATAFRAME* cd_2){
     else if(taille_1 > taille_2){
         long long int ecart_taille = taille_1 - taille_2;
         for (long long int i = 0; i<ecart_taille; i++){
-            COLONNE * nouv_col = create_column(NULLVAL, "");
+            COLONNE * nouv_col = creer_colonne(NULLVAL, "");
             for (long long int j = 0; j<temp_2->data->tlog; j++)
                 inserer_valeur(nouv_col, NULL);
             ajouter_colonne(cd_2, nouv_col);
@@ -236,7 +236,7 @@ void afficher_cd(CDATAFRAME* cd){
             printf("[%7lld]  ", i);
             while (temp != NULL) {
                 if (temp->data->donnees[i] != NULL) {
-                    convert_value(temp->data, i, str, 100);
+                    convert_val(temp->data, i, str, 100);
                     printf("%15s  ", str);
                 } else
                     printf("%15s  ", "NULL");
@@ -387,7 +387,7 @@ void afficher_ligne_entre(CDATAFRAME* cd, long long int debut, long long int fin
                 printf("[%7lld]  ", i);
                 while (temp != NULL) {
                     if (temp->data->donnees[i] != NULL) {
-                        convert_value(temp->data, i, str, 100);
+                        convert_val(temp->data, i, str, 100);
                         printf("%15s  ", str);
                     } else
                         printf("%15s  ", "NULL");
@@ -436,7 +436,7 @@ void afficher_colonne_entre(CDATAFRAME* cd, char* nom_debut, char* nom_fin){
                 printf("[%7lld]  ", i);
                 while (temp != col_fin->next) {
                     if (temp->data->donnees[i] != NULL) {
-                        convert_value(temp->data, i, str, 100);
+                        convert_val(temp->data, i, str, 100);
                         printf("%15s  ", str);
                     } else
                         printf("%15s  ", "NULL");
@@ -472,7 +472,7 @@ CDATAFRAME* csv_vers_cd(char *nom_fichier, TYPE* dftype, int taille){
         mot = strtok(ligne, separateur);
         for(long long int i = 0;i<taille; i++){
             snprintf(nom,10, "%lld", i);
-            col = create_column(dftype[i], nom);
+            col = creer_colonne(dftype[i], nom);
             switch (dftype[i]) {
                 case NULLVAL:
                     inserer_valeur(col, NULL);
@@ -534,7 +534,7 @@ void cd_vers_csv(CDATAFRAME* cd, char* nom_fichier){
             temp = cd->head;
             while (temp != NULL) {
                 if (temp->data->donnees[i] != NULL) {
-                    convert_value(temp->data, i, str, 100);
+                    convert_val(temp->data, i, str, 100);
                     fputs(str, fichier);
                 }
                 else
@@ -562,7 +562,7 @@ void afficher_cd_par_index(CDATAFRAME* cd, COLONNE* col){
             printf("[%7lld]  ", i);
             while (temp != NULL) {
                 if (temp->data->donnees[col->index[i]] != NULL) {
-                    convert_value(temp->data, col->index[i], str, 100);
+                    convert_val(temp->data, col->index[i], str, 100);
                     printf("%15s  ", str);
                 } else
                     printf("%15s  ", "NULL");
