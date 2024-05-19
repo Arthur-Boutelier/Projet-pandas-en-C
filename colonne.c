@@ -366,30 +366,38 @@ void colonne_supprimer_indice(COLONNE* col, long long int indice){
 }
 
 void colonne_modif_valeur(COLONNE* col, long long int indice, void* nouv_val, TYPE type_n_v){
-    if (col->type == type_n_v){
-        switch (col->type){
-            case NULLVAL:
-                break;
-            case INT:
-                *((int*)col->donnees[indice]) = *((int*)nouv_val);
-                break;
-            case CHAR:
-                *((char*)col->donnees[indice]) = *((char*)nouv_val);
-                break;
-            case FLOAT:
-                *((float*)col->donnees[indice]) = *((float*)nouv_val);
-                break;
-            case DOUBLE:
-                *((double*)col->donnees[indice]) = *((double*)nouv_val);
-                break;
-            case STRING:
-                strcpy((char*)col->donnees[indice], (char*)nouv_val);
-                break;
-            case STRUCTURE:
-                break;
-            case UINT:
-                *((unsigned int*)col->donnees[indice]) = *((unsigned int*)nouv_val);
-                break;
+    if (col->donnees[indice] == NULL && nouv_val != NULL)
+        col->donnees[indice] = malloc(sizeof(COLUMN_TYPE));
+    if (nouv_val == NULL) {
+        free(col->donnees[indice]);
+        col->donnees[indice] = NULL;
+    }
+    else {
+        if (col->type == type_n_v) {
+            switch (col->type) {
+                case NULLVAL:
+                    break;
+                case INT:
+                    *((int *) col->donnees[indice]) = *((int *) nouv_val);
+                    break;
+                case CHAR:
+                    *((char *) col->donnees[indice]) = *((char *) nouv_val);
+                    break;
+                case FLOAT:
+                    *((float *) col->donnees[indice]) = *((float *) nouv_val);
+                    break;
+                case DOUBLE:
+                    *((double *) col->donnees[indice]) = *((double *) nouv_val);
+                    break;
+                case STRING:
+                    strcpy((char *) col->donnees[indice], (char *) nouv_val);
+                    break;
+                case STRUCTURE:
+                    break;
+                case UINT:
+                    *((unsigned int *) col->donnees[indice]) = *((unsigned int *) nouv_val);
+                    break;
+            }
         }
     }
     else
