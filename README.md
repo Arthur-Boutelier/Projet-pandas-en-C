@@ -24,10 +24,25 @@ main.c :
    * utiliser toutes les fonctions
 
 colonne.c : 
-  CDATAFRAME by Paul Lesage, Victor Proffit et Arthur Boutelier
-  Ce fichier comporte toutes les fonctions permettant de gérer les colonnes
+   * CDATAFRAME by Paul Lesage, Victor Proffit et Arthur Boutelier
+   * Ce fichier comporte toutes les fonctions permettant de gérer les colonnes
 
 sort.c : 
-  CDATAFRAME by Paul Lesage, Victor Proffit et Arthur Boutelier
-  Ce fichier comporte toutes les fonctions permettant de gérer le tri des colonnes
-pour la fonctionnalité lié aux csv, il faut bien faire attention de prendre le chemin absolue vers le fichiers et non pas le chemin relatif
+  * CDATAFRAME by Paul Lesage, Victor Proffit et Arthur Boutelier
+  * Ce fichier comporte toutes les fonctions permettant de gérer le tri des colonnes
+
+list.c : 
+  * CDATAFRAME by Paul Lesage, Victor Proffit et Arthur Boutelier
+  * Ce fichier comporte toutes les fonctions permettant de gérer les listes doublement chainé
+
+cdataframe.c : 
+  * CDATAFRAME by Paul Lesage, Victor Proffit et Arthur Boutelier
+  * Ce fichier comporte toutes les fonctions permettant de gérer les dataframes
+
+
+Pour la fonctionnalité lié aux fichiers CSV, il faut bien faire attention de prendre le chemin absolue vers le fichiers et non pas le chemin relatif
+
+
+Pour lancer le programme, il faut se munir d'un environnement de développement de langage C (comme CLion).
+Ouvrir le dossier dans cet environnement et exécuter le fichier main.c .
+
