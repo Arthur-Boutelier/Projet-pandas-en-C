@@ -164,6 +164,7 @@ void effacer_index(COLONNE* col);
  * Sortie: void
  */
 void print_index(COLONNE * col);
+
 /*
  * Fonction qui regarde si l'index est correct
  * Entrée: col: COLONNE* : pointeur sur une colonne

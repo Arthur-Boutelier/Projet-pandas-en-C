@@ -3,16 +3,18 @@
 #include <stdio.h>
 #include <string.h>
 #define taille_realloc 256
-COLONNE* creer_colonne(TYPE type,char * title)
+
+
+COLONNE* creer_colonne(TYPE type,char * title) // création de la classe colonne
 {
     COLONNE * ptr=malloc(sizeof (COLONNE));
 
-    strcpy(ptr->titre,title);
-    ptr->donnees=NULL;
-    ptr->type=type;
-    ptr->index=NULL;
+    strcpy(ptr->titre,title);//titre de la colonne
+    ptr->donnees=NULL;//données de la colonne
+    ptr->type=type;// type des données
+    ptr->index=NULL; // indice des valeurs de la colonne
     ptr->tmax=0;
-    ptr->tlog=0;
+    ptr->tlog=0; //nombre de colonne
     ptr->valid_index=0;
     ptr->tri_dir = 0;
 
@@ -21,9 +23,9 @@ COLONNE* creer_colonne(TYPE type,char * title)
 
 
 void allocation_initial(COLONNE* col){
-    switch(col->type){
-        case INT:
-            col->donnees = (COLUMN_TYPE **) malloc(taille_realloc*sizeof(int*));
+    switch(col->type){ //switch case pour résoudre le problème avec chaque type
+        case INT: //type INT
+            col->donnees = (COLUMN_TYPE **) malloc(taille_realloc*sizeof(int*));//allocation de la mémoire pour la colonne
             break;
         case CHAR:
             col->donnees = (COLUMN_TYPE **) malloc(taille_realloc*sizeof(char*));
@@ -55,7 +57,7 @@ void allocation_initial(COLONNE* col){
 
 void reallocation(COLONNE* col){
     COLUMN_TYPE ** ptr;
-    ptr = realloc(col->donnees, col->tmax+taille_realloc);
+    ptr = realloc(col->donnees, col->tmax+taille_realloc); //réallocation de mémoire
     col->donnees = ptr;
     int* temp = realloc(col->index,(col->tmax + sizeof(int))*taille_realloc);
     if (temp != NULL)
@@ -64,7 +66,7 @@ void reallocation(COLONNE* col){
 int inserer_valeur(COLONNE* col, void* val)
 {
     int etat = 1;
-    if (col->tmax == col->tlog){
+    if (col->tmax == col->tlog){ //si il n'y a pas assez de place dans la mémoire pour insérer une nouvelle valeure
         etat = 0;
         if (col->tmax)
             reallocation(col);
@@ -72,10 +74,10 @@ int inserer_valeur(COLONNE* col, void* val)
             allocation_initial(col);
     }
     if (val!=NULL){
-        switch (col->type){
+        switch (col->type){ //switch case pour résoudre le problème avec chaque type
             case INT:
-                col->donnees[col->tlog] = (COLUMN_TYPE*) malloc (sizeof(int));
-                *((int*)col->donnees[col->tlog])= *((int*)val);
+                col->donnees[col->tlog] = (COLUMN_TYPE*) malloc (sizeof(int)); // allocation de la mémoire pour le dernier élément
+                *((int*)col->donnees[col->tlog])= *((int*)val); //insertion de la valeur en bout de colonne
                 break;
             case CHAR:
                 col->donnees[col->tlog] = (COLUMN_TYPE *) malloc (sizeof(char));
@@ -118,12 +120,12 @@ int inserer_valeur(COLONNE* col, void* val)
 void supprimer_colonne(COLONNE *col)
 {
     int i;
-    for (i = col->tlog;i>0;i--){
-        free(col->donnees[i-1]);
+    for (i = col->tlog;i>0;i--){ //on parcours chaque ligne de la colonne
+        free(col->donnees[i-1]);//on supprime chaque données
     }
     free(col->index);
     free(col->donnees);
-    free(col);
+    free(col); //on supprime la colonne
 }
 
 void print_col(COLONNE *col)
@@ -134,25 +136,26 @@ void print_col(COLONNE *col)
     {
         if( (col->donnees[i])==NULL    )
         {
-            printf("[%d]    NULL\n",i);
+            printf("[%d]    NULL\n",i); //on affiche NULL si la colonne est null
         }
         else
         {
-            if (col->type==STRING){
-                printf("[%d]    %s\n",i,(char*)col->donnees[i]);
+            if (col->type==STRING){ // on étudie le cas pour le type STRING
+                printf("[%d]    %s\n",i,(char*)col->donnees[i]); //On affiche la valeur
             }
             else{
-                convert_val(col,i,str,100);
-                printf("[%d]    %s\n",i,str);
-            }}
+                convert_val(col,i,str,100); //on convertie la valeur en str
+                printf("[%d]    %s\n",i,str); // on l'affiche
+            }
+        }
     }
     printf("\n");
 }
 void convert_val(COLONNE * col , unsigned long long int indice, char* str, int taille)
 {
-    switch(col->type){
+    switch(col->type){ //switch case pour résoudre le problème avec chaque type
         case INT:
-            snprintf(str, taille, "%d", *((int*)col->donnees[indice]));
+            snprintf(str, taille, "%d", *((int*)col->donnees[indice])); //on convertie le type en format str
             break;
         case CHAR:
             snprintf(str, taille, "%c", *((char*)col->donnees[indice]));
@@ -179,14 +182,14 @@ void convert_val(COLONNE * col , unsigned long long int indice, char* str, int t
 long long int occurence(COLONNE * col, void* valeur){
     long long int nb_occurrence = 0;
     if (valeur != NULL) {
-        switch (col->type) {
+        switch (col->type) { //switch case pour résoudre le problème avec chaque type
             case (NULLVAL):
                 break;
-            case INT:
-                for (long long int i = 0; i < col->tlog; i++) {
+            case INT: // cas pour int
+                for (long long int i = 0; i < col->tlog; i++) { //on parcours la colonne
                     if (col->donnees[i] != NULL) {
-                        if (*((int *) (col->donnees[i])) == *((int *) valeur))
-                            nb_occurrence++;
+                        if (*((int *) (col->donnees[i])) == *((int *) valeur)) //si la valeur est la même que celle recherché
+                            nb_occurrence++; //on incrémente 1 car c'est la valeur recherché
                     }
                 }
                 break;
@@ -235,9 +238,9 @@ long long int occurence(COLONNE * col, void* valeur){
         }
     }
     else{
-        for (long long int i = 0; i < col->tlog; i++) {
-            if (col->donnees[i] == NULL)
-                    nb_occurrence++;
+        for (long long int i = 0; i < col->tlog; i++) { //on parcours la colonne
+            if (col->donnees[i] == NULL) //si la valeur de la colonne est NULL
+                    nb_occurrence++; // alors on incrémente 1
         }
     }
     return nb_occurrence;
@@ -245,20 +248,20 @@ long long int occurence(COLONNE * col, void* valeur){
 
 void* valeur_pos(COLONNE* col, long long int indice){
     if (indice<col->tlog)
-        return (col->donnees[indice]);
+        return (col->donnees[indice]); // on retourne la valeur à la position indice si l'indice est plus petit que le nombre de colonne
     return NULL;
 }
 
 long long int nb_valeur_inf_col(COLONNE* col, void* valeur){
-    long long int cmpt = 0;
-    switch (col->type) {
+    long long int cmpt = 0; //on initialise un compteur
+    switch (col->type) { //switch case pour résoudre le problème avec chaque type
         case(NULLVAL):
             break;
-        case INT:
-            for (long long int i = 0; i<col->tlog; i++){
-                if (col->donnees[i]!=NULL) {
-                    if (*((int*)(col->donnees[i])) < *((int*)valeur))
-                        cmpt++;
+        case INT: // cas pour le type INT
+            for (long long int i = 0; i<col->tlog; i++){ //on parcours la colonne
+                if (col->donnees[i]!=NULL) { //si la valeur à l'indice i n'est pas NULL
+                    if (*((int*)(col->donnees[i])) < *((int*)valeur))//alors on regarde si la valeur est plus grande que la valeur dans la colonne
+                        cmpt++; // on incrémente
                 }}
             break;
         case CHAR:
@@ -305,14 +308,14 @@ long long int nb_valeur_inf_col(COLONNE* col, void* valeur){
 
 long long int nb_valeur_sup_col(COLONNE* col, void* valeur){
     long long int cmpt = 0;
-    switch (col->type) {
+    switch (col->type) { //switch case pour résoudre le problème avec chaque type
         case(NULLVAL):
             break;
         case INT:
-            for (long long int i = 0; i<col->tlog; i++){
-                if (col->donnees[i]!=NULL) {
-                    if (*((int*)(col->donnees[i])) > *((int*)valeur))
-                        cmpt++;
+            for (long long int i = 0; i<col->tlog; i++){ //on parcours la colonne
+                if (col->donnees[i]!=NULL) { //si la valeur n'est pas NULL
+                    if (*((int*)(col->donnees[i])) > *((int*)valeur)) // on regarde si la valeur est inférieur à la valeur de la colonne
+                        cmpt++;//on incrémente
                 }}
             break;
         case CHAR:
@@ -358,10 +361,10 @@ long long int nb_valeur_sup_col(COLONNE* col, void* valeur){
 
 void colonne_supprimer_indice(COLONNE* col, long long int indice){
     if (indice<col->tlog){
-        for (long long int i = indice; i<col->tlog-1;i++)
-            col->donnees[i]=col->donnees[i+1];
-        free(col->donnees[col->tlog]);
-        col->tlog--;
+        for (long long int i = indice; i<col->tlog-1;i++) //on parcours la colonne à partir de l'indice
+            col->donnees[i]=col->donnees[i+1]; //on décale chaque valeur
+        free(col->donnees[col->tlog]); //on supprime la mémoire allouer pour la dernière valeur
+        col->tlog--; // on décrémente la taille logique
     }
 }
 
@@ -374,11 +377,11 @@ void colonne_modif_valeur(COLONNE* col, long long int indice, void* nouv_val, TY
     }
     else {
         if (col->type == type_n_v) {
-            switch (col->type) {
+            switch (col->type) { //switch case pour résoudre le problème avec chaque type
                 case NULLVAL:
                     break;
                 case INT:
-                    *((int *) col->donnees[indice]) = *((int *) nouv_val);
+                    *((int *) col->donnees[indice]) = *((int *) nouv_val);//on modifie la valeur à l'indice souhaité
                     break;
                 case CHAR:
                     *((char *) col->donnees[indice]) = *((char *) nouv_val);
@@ -404,10 +407,10 @@ void colonne_modif_valeur(COLONNE* col, long long int indice, void* nouv_val, TY
 
 int existe_col(COLONNE* col, void* val){
     if(val != NULL) {
-        switch (col->type) {
-            case INT:
-                for (long long int i = 0; i < col->tlog; i++) {
-                    if (*((int *) col->donnees[i]) == *((int *) val))
+        switch (col->type) { //switch case pour résoudre le problème avec chaque type
+            case INT: //cas pour le type INT
+                for (long long int i = 0; i < col->tlog; i++) { //on parcours la colonne
+                    if (*((int *) col->donnees[i]) == *((int *) val)) // si la valeur est égale à la valeur à l'indice i
                         return 1;
                 }
                 break;
@@ -450,7 +453,7 @@ int existe_col(COLONNE* col, void* val){
     }
     else{
         for(long long int i = 0; i<col->tlog; i++){
-            if(col->donnees[i] == NULL)
+            if(col->donnees[i] == NULL) //si la valeur à l'indice i est égale à NULL
                 return 1;
             }
     }
@@ -458,30 +461,31 @@ int existe_col(COLONNE* col, void* val){
 }
 void print_col_index(COLONNE* col){
     char str[100];
-    for (int i=0;i<col->tlog;i++){
-        if( (col->donnees[col->index[i]])==NULL)
+    for (int i=0;i<col->tlog;i++){ // on parcours la colonne
+        if( (col->donnees[col->index[i]])==NULL) // si la valeur de la données est NULL
         {
             printf("[%d]    NULL\n",i);
         }
         else
         {
-            if (col->type==STRING){
-                printf("[%d]    %s\n",i,(char*)col->donnees[col->index[i]]);
+            if (col->type==STRING){ //si le type de la colonne est string
+                printf("[%d]    %s\n",i,(char*)col->donnees[col->index[i]]); //on affiche les indice
             }
             else{
-                convert_val(col,col->index[i],str,100);
+                convert_val(col,col->index[i],str,100); //on convertie en str
                 printf("[%d]    %s\n",i,str);
             }}
     }
     printf("\n");
 }
+
 void effacer_index(COLONNE* col){
     col->valid_index=0;
 }
 
 void print_index(COLONNE * col){
-    for (int i=0;i<col->tlog;i++){
-        printf("%d ",col->index[i]);
+    for (int i=0;i<col->tlog;i++){ // on parcours la colonne
+        printf("%d ",col->index[i]); // on affiche l'indice
     }
     printf("\n");
 }
@@ -490,7 +494,7 @@ int verif_index(COLONNE *col){
     if (col->index==NULL){
         return 0;
     }
-    if (col->valid_index==1){
+    if (col->valid_index==1){ //si la liste est trié
         return 1;
     }
     return -1;
@@ -499,23 +503,23 @@ int verif_index(COLONNE *col){
 
 int chercher_val_col_dicho(COLONNE *col, void *val){
     if(val != NULL){
-        if (col->valid_index != 1){
+        if (col->valid_index != 1){ //vérification si la liste est trié
             return -1;
         }
 
         else{
-            int a = 0;
+            int a = 0; //initialisation des variables de la dichotomie
             int b = col->tlog - 1;
-            int m = (a + b) / 2;
-            switch (col->type) {
-                case INT:
-                    while (a < b){
-                        if (*(int *) col->donnees[col->index[m]] == *((int *) val)){
+            int m = (a + b) / 2; // m étant le milieu des indices de la colonne
+            switch (col->type) { //switch case pour résoudre le problème avec chaque type
+                case INT: //cas pour le type int
+                    while (a < b){ //tant que le debut n'aura pas rejoint la fin
+                        if (*(int *) col->donnees[col->index[m]] == *((int *) val)){ //on regarde si le milieu n'est pas la valeur recherché
                             return 1;
                         }
                         else{
-                            if (*(int *) col->donnees[col->index[m]] > *((int *) val)){
-                                b = m-1;
+                            if (*(int *) col->donnees[col->index[m]] > *((int *) val)){ //sinon on regarde la valeur à l'indice m est plus grand que la valeur
+                                b = m-1; // on ramène la fin au milieu
                             }
                             else{
                                 a = m+1;
@@ -524,13 +528,13 @@ int chercher_val_col_dicho(COLONNE *col, void *val){
                     }
                     break;
 
-                case CHAR:
-                    while (a < b){
-                        if (*(char *) col->donnees[col->index[m]] == *((char *) val)){
+                case CHAR://cas pour le type char
+                    while (a < b){//cas pour le type int
+                        if (*(char *) col->donnees[col->index[m]] == *((char *) val)){//on regarde si le milieu n'est pas la valeur recherché
                             return 1;
                         }
                         else{
-                            if (*(char *) col->donnees[col->index[m]] > *((char *) val)){
+                            if (*(char *) col->donnees[col->index[m]] > *((char *) val)){//sinon on regarde la valeur à l'indice m est plus grand que la valeur
                                 b = m-1;
                             }
                             else{
@@ -539,13 +543,13 @@ int chercher_val_col_dicho(COLONNE *col, void *val){
                         }
                     }
                     break;
-                case FLOAT:
-                    while (a < b){
-                        if (*(float *) col->donnees[col->index[m]] == *((float *) val)){
+                case FLOAT://cas pour le type float
+                    while (a < b){//cas pour le type int
+                        if (*(float *) col->donnees[col->index[m]] == *((float *) val)){//on regarde si le milieu n'est pas la valeur recherché
                             return 1;
                         }
                         else{
-                            if (*(float *) col->donnees[col->index[m]] > *((float *) val)){
+                            if (*(float *) col->donnees[col->index[m]] > *((float *) val)){//sinon on regarde la valeur à l'indice m est plus grand que la valeur
                                 b = m-1;
                             }
                             else{
@@ -554,13 +558,13 @@ int chercher_val_col_dicho(COLONNE *col, void *val){
                         }
                     }
                     break;
-                case DOUBLE:
-                    while (a < b){
-                        if (*(double *) col->donnees[col->index[m]] == *((double *) val)){
+                case DOUBLE://cas pour le type double
+                    while (a < b){//cas pour le type int
+                        if (*(double *) col->donnees[col->index[m]] == *((double *) val)){//on regarde si le milieu n'est pas la valeur recherché
                             return 1;
                         }
                         else{
-                            if (*(double *) col->donnees[col->index[m]] > *((double *) val)){
+                            if (*(double *) col->donnees[col->index[m]] > *((double *) val)){//sinon on regarde la valeur à l'indice m est plus grand que la valeur
                                 b = m-1;
                             }
                             else{
@@ -569,13 +573,13 @@ int chercher_val_col_dicho(COLONNE *col, void *val){
                         }
                     }
                     break;
-                case UINT:
-                    while (a < b){
-                        if (*(unsigned int *) col->donnees[col->index[m]] == *((unsigned int *) val)){
+                case UINT://cas pour le type unit
+                    while (a < b){//cas pour le type int
+                        if (*(unsigned int *) col->donnees[col->index[m]] == *((unsigned int *) val)){//on regarde si le milieu n'est pas la valeur recherché
                             return 1;
                         }
                         else{
-                            if (*(unsigned int *) col->donnees[col->index[m]] > *((unsigned int *) val)){
+                            if (*(unsigned int *) col->donnees[col->index[m]] > *((unsigned int *) val)){//sinon on regarde la valeur à l'indice m est plus grand que la valeur
                                 b = m-1;
                             }
                             else{
@@ -584,13 +588,13 @@ int chercher_val_col_dicho(COLONNE *col, void *val){
                         }
                     }
                     break;
-                case STRING:
-                    while (a < b){
-                        if(!strcmp((char*)val, (char*)col->donnees[m])){
-                            return 1;
+                case STRING://cas pour le type string
+                    while (a < b){//cas pour le type int
+                        if(!strcmp((char*)val, (char*)col->donnees[m])){//on regarde si le milieu n'est pas la valeur recherché
+                            return 1; //la fonction strcmp sert à comparé dans l'ordre lexicographique les deux valeurs
                         }
                         else{
-                            if(strcmp((char*)val, (char*)col->donnees[m]) == -1){
+                            if(strcmp((char*)val, (char*)col->donnees[m]) == -1){//sinon on regarde la valeur à l'indice m est plus grand que la valeur avec la fonction strcmp
                                 b = m-1;
                             }
                             else{
@@ -599,9 +603,10 @@ int chercher_val_col_dicho(COLONNE *col, void *val){
                         }
                     }
                     break;
-                case NULLVAL:
+                case NULLVAL: //cas pour le type nullval
                     return 0;
-                case STRUCTURE:
+                    break;
+                case STRUCTURE: //cas pour le type structure
                     break;
             }
             return 0;
