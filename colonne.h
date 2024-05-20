@@ -182,4 +182,5 @@ int verif_index(COLONNE *col);
  *                1 si la valeur est dans la colonne
  */
 int chercher_val_col_dicho(COLONNE *col, void *val);
+void* somme_col(COLONNE* col);
 #endif

@@ -249,6 +249,7 @@ void afficher_cd(CDATAFRAME* cd){
             }
             printf("\n");
         }
+        printf("\n");
     }
     else
         printf("Ce Dataframe n'existe pas\n");
@@ -574,6 +575,7 @@ void afficher_cd_par_index(CDATAFRAME* cd, COLONNE* col){
             }
             printf("\n");
         }
+        printf("\n");
     }
     else
         printf("Ce Dataframe n'existe pas\n");
