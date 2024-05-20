@@ -3,7 +3,9 @@
 #include <stdio.h>
 #include <string.h>
 #define taille_realloc 256
-COLONNE* create_column(TYPE type,char * title) // création de la classe colonne
+
+
+COLONNE* creer_colonne(TYPE type,char * title) // création de la classe colonne
 {
     COLONNE * ptr=malloc(sizeof (COLONNE));
 
@@ -14,6 +16,7 @@ COLONNE* create_column(TYPE type,char * title) // création de la classe colonne
     ptr->tmax=0;
     ptr->tlog=0; //nombre de colonne
     ptr->valid_index=0;
+    ptr->tri_dir = 0;
 
     return ptr;
 }
@@ -45,6 +48,10 @@ void allocation_initial(COLONNE* col){
         case NULLVAL:
             col->donnees = (COLUMN_TYPE**) malloc(taille_realloc*sizeof (NULLVAL));
     }
+    col->index=(int*)malloc(sizeof(int)*taille_realloc);
+    for (int i=0;i<taille_realloc; i++) {
+        col->index[i] = i;
+    }
     col->tmax = 256;
 }
 
@@ -52,6 +59,9 @@ void reallocation(COLONNE* col){
     COLUMN_TYPE ** ptr;
     ptr = realloc(col->donnees, col->tmax+taille_realloc); //réallocation de mémoire
     col->donnees = ptr;
+    int* temp = realloc(col->index,(col->tmax + sizeof(int))*taille_realloc);
+    if (temp != NULL)
+        col->index = temp;
 }
 int inserer_valeur(COLONNE* col, void* val)
 {
@@ -95,14 +105,15 @@ int inserer_valeur(COLONNE* col, void* val)
                 col->donnees[col->tlog] = NULL;
                 break;
         }
-        col->tlog +=1; // on ajoute 1 à la nouvelle taille logique
-        create_index(col);
+        col->tlog +=1;
     }
     else{
         *(col->donnees+col->tlog)=NULL;
         col->tlog+=1;
-        create_index(col);
     }
+    if (col->index)
+        col->valid_index = -1;
+    actualiser_index(col);
     return etat;
 }
 
@@ -112,6 +123,7 @@ void supprimer_colonne(COLONNE *col)
     for (i = col->tlog;i>0;i--){ //on parcours chaque ligne de la colonne
         free(col->donnees[i-1]);//on supprime chaque données
     }
+    free(col->index);
     free(col->donnees);
     free(col); //on supprime la colonne
 }
@@ -132,12 +144,14 @@ void print_col(COLONNE *col)
                 printf("[%d]    %s\n",i,(char*)col->donnees[i]); //On affiche la valeur
             }
             else{
-                convert_value(col,i,str,100); //on convertie la valeur en str
+                convert_val(col,i,str,100); //on convertie la valeur en str
                 printf("[%d]    %s\n",i,str); // on l'affiche
-            }}
+            }
+        }
     }
+    printf("\n");
 }
-void convert_value(COLONNE * col , unsigned long long int indice, char* str, int taille)
+void convert_val(COLONNE * col , unsigned long long int indice, char* str, int taille)
 {
     switch(col->type){ //switch case pour résoudre le problème avec chaque type
         case INT:
@@ -355,34 +369,40 @@ void colonne_supprimer_indice(COLONNE* col, long long int indice){
 }
 
 void colonne_modif_valeur(COLONNE* col, long long int indice, void* nouv_val, TYPE type_n_v){
-    if (col->type == type_n_v){
-        switch (col->type){ //switch case pour résoudre le problème avec chaque type
-            case NULLVAL:
-                break;
-            case INT: //cas pour le type INT
-                *((int*)col->donnees[indice]) = *((int*)nouv_val); //on modifie la valeur à l'indice souhaité
-                break;
-            case CHAR:
-                *((char*)col->donnees[indice]) = *((char*)nouv_val);
-                break;
-            case FLOAT:
-                *((float*)col->donnees[indice]) = *((float*)nouv_val);
-                break;
-            case DOUBLE:
-                *((double*)col->donnees[indice]) = *((double*)nouv_val);
-                break;
-            case STRING:
-                strcpy((char*)col->donnees[indice], (char*)nouv_val);
-                break;
-            case STRUCTURE:
-                break;
-            case UINT:
-                *((unsigned int*)col->donnees[indice]) = *((unsigned int*)nouv_val);
-                break;
+    if (col->donnees[indice] == NULL && nouv_val != NULL)
+        col->donnees[indice] = malloc(sizeof(COLUMN_TYPE));
+    if (nouv_val == NULL) {
+        free(col->donnees[indice]);
+        col->donnees[indice] = NULL;
+    }
+    else {
+        if (col->type == type_n_v) {
+            switch (col->type) { //switch case pour résoudre le problème avec chaque type
+                case NULLVAL:
+                    break;
+                case INT:
+                    *((int *) col->donnees[indice]) = *((int *) nouv_val);//on modifie la valeur à l'indice souhaité
+                    break;
+                case CHAR:
+                    *((char *) col->donnees[indice]) = *((char *) nouv_val);
+                    break;
+                case FLOAT:
+                    *((float *) col->donnees[indice]) = *((float *) nouv_val);
+                    break;
+                case DOUBLE:
+                    *((double *) col->donnees[indice]) = *((double *) nouv_val);
+                    break;
+                case STRING:
+                    strcpy((char *) col->donnees[indice], (char *) nouv_val);
+                    break;
+                case STRUCTURE:
+                    break;
+                case UINT:
+                    *((unsigned int *) col->donnees[indice]) = *((unsigned int *) nouv_val);
+                    break;
+            }
         }
     }
-    else //si le type est différent
-        printf("Probleme survenue lors de la modification\n");
 }
 
 int existe_col(COLONNE* col, void* val){
@@ -452,37 +472,17 @@ void print_col_index(COLONNE* col){
                 printf("[%d]    %s\n",i,(char*)col->donnees[col->index[i]]); //on affiche les indice
             }
             else{
-                convert_value(col,col->index[i],str,100); //on convertie en str
+                convert_val(col,col->index[i],str,100); //on convertie en str
                 printf("[%d]    %s\n",i,str);
             }}
     }
+    printf("\n");
 }
-void erase_index(COLONNE* col){
-    free(col->index); //on supprime la mémoire alloué
-    col->index=NULL;
+
+void effacer_index(COLONNE* col){
     col->valid_index=0;
 }
-void create_index(COLONNE* col){
-    switch (col->valid_index) {//switch case pour résoudre le problème si la liste est trié, non trié ou trié partiellement
-        case 0:
-            col->index=(int*)malloc(sizeof(int)*col->tlog);
-            for (int i=0;i<col->tlog;i++) { // on parcours la colonne
-                col->index[i] = i; // on crée l'indice
-            }
-            break;
-        case 1:
-            col->index = realloc(col->index,(sizeof(int))*col->tlog); // on alloue de la mémoire
-            col->index[col->tlog-1]=col->tlog-1;
-            col->valid_index=-1;
-            break;
-        case -1:
-            col->index = realloc(col->index,(sizeof(int))*col->tlog); // on aloue de la mémoire
-            col->index[col->tlog-1]=col->tlog-1;
-            break;
-    }
 
-
-}
 void print_index(COLONNE * col){
     for (int i=0;i<col->tlog;i++){ // on parcours la colonne
         printf("%d ",col->index[i]); // on affiche l'indice
@@ -490,7 +490,7 @@ void print_index(COLONNE * col){
     printf("\n");
 }
 
-int check_index(COLONNE *col){
+int verif_index(COLONNE *col){
     if (col->index==NULL){
         return 0;
     }
@@ -501,7 +501,7 @@ int check_index(COLONNE *col){
 }
 
 
-int search_value_in_column(COLONNE *col, void *val){
+int chercher_val_col_dicho(COLONNE *col, void *val){
     if(val != NULL){
         if (col->valid_index != 1){ //vérification si la liste est trié
             return -1;
@@ -617,4 +617,6 @@ int search_value_in_column(COLONNE *col, void *val){
     }
 }
 
-
+void actualiser_index(COLONNE* col) {
+    tri(col, col->tri_dir);
+}

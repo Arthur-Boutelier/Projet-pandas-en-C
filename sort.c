@@ -2,99 +2,98 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-void sort(COLONNE* col, int dir){
-    col->sort_dir=dir;
-    switch (col->valid_index) {
+
+void tri(COLONNE* col, int dir){
+    if (dir != col->tri_dir){
+        col->tri_dir=dir;
+        col->valid_index = 0;
+    }
+    switch (col->valid_index) { //effectue le tri en fonction de valid index
         case 1:
             break;
         case 0:
-            tri_quicksort(col);
+            tri_quicksort(col);//effectue un quicksort
+            col->valid_index=1;
             break;
         case -1:
-            tri_insertion(col);
+            tri_insertion(col);//effectuer un tri insertion
+            col->valid_index=1;
             break;
     }
-    col->valid_index=1;
 }
 void tri_insertion(COLONNE* col){
     int i,j,n=col->tlog;
-    void* k;
-    switch(col->sort_dir){
+    int k;
+    switch(col->tri_dir){
         case 0:
             switch(col->type){
                 case NULLVAL:
                     break;
                 case INT:
-                    k=(int*)malloc(sizeof(int));
                     for(i=1;i<n;i++){
-                        *(int*)k=col->index[i];
+                        k=col->index[i];
                         j=i-1;
-                        while ((j>=0)&&((col->donnees[col->index[j]]==NULL&&col->donnees[*(int*)k]!=NULL)||(col->donnees[col->index[j]]!=NULL&&col->donnees[*(int*)k]!=NULL&&(*(int*)col->donnees[col->index[j]]>*(int*)col->donnees[*(int*)k])))){
+                        while ((j>=0)&&((col->donnees[col->index[j]]==NULL&&col->donnees[k]!=NULL)||(col->donnees[col->index[j]]!=NULL&&col->donnees[k]!=NULL&&(*(int*)col->donnees[col->index[j]]>*(int*)col->donnees[k])))){ //longues conditions pour mettre l'index des valeurs NULL à la fin
                             col->index[j+1]=col->index[j];
                             j--;
                         }
-                        col->index[j+1]=*(int*)k;
-                    }free(k);
+                        col->index[j+1]=k;
+                    }
                     break;
                 case DOUBLE:
-                    k=(int*)malloc(sizeof(int));
                     for(i=1;i<n;i++){
-                        *(int*)k=col->index[i];
+                        k=col->index[i];
                         j=i-1;
-                        while ((j>=0)&&((col->donnees[col->index[j]]==NULL&&col->donnees[*(int*)k]!=NULL)||(col->donnees[col->index[j]]!=NULL&&col->donnees[*(int*)k]!=NULL&&(*(double*)col->donnees[col->index[j]]>*(double*)col->donnees[*(int*)k])))){
+                        while ((j>=0)&&((col->donnees[col->index[j]]==NULL&&col->donnees[k]!=NULL)||(col->donnees[col->index[j]]!=NULL&&col->donnees[k]!=NULL&&(*(double*)col->donnees[col->index[j]]>*(double*)col->donnees[k])))){  //longues conditions pour mettre l'index des valeurs NULL à la fin
                             col->index[j+1]= col->index[j];
                             j--;
                         }
-                        col->index[j+1]=*(int*)k;
-                    }free(k);
+                        col->index[j+1]=k;
+                    }
                     break;
                 case FLOAT:
-                    k=(int*)malloc(sizeof(int));
                     for(i=1;i<n;i++){
-                        *(int*)k=col->index[i];
+                        k=col->index[i];
                         j=i-1;
-                        while ((j>=0)&&((col->donnees[col->index[j]]==NULL&&col->donnees[*(int*)k]!=NULL)||(col->donnees[col->index[j]]!=NULL&&col->donnees[*(int*)k]!=NULL&&(*(float*)col->donnees[col->index[j]]>*(float*)col->donnees[*(int*)k])))){
+                        while ((j>=0)&&((col->donnees[col->index[j]]==NULL&&col->donnees[k]!=NULL)||(col->donnees[col->index[j]]!=NULL&&col->donnees[k]!=NULL&&(*(float*)col->donnees[col->index[j]]>*(float*)col->donnees[k])))){  //longues conditions pour mettre l'index des valeurs NULL à la fin
                             col->index[j+1]= col->index[j];
                             j--;
                         }
-                        col->index[j+1]=*(int*)k;
-                    }free(k);
+                        col->index[j+1]=k;
+                    }
                     break;
                 case UINT:
-                    k=(int*)malloc(sizeof(int));
                     for(i=1;i<n;i++){
-                        *(int*)k=col->index[i];
+                        k=col->index[i];
                         j=i-1;
-                        while ((j>=0)&&((col->donnees[col->index[j]]==NULL&&col->donnees[*(int*)k]!=NULL)||(col->donnees[col->index[j]]!=NULL&&col->donnees[*(int*)k]!=NULL&&(*(unsigned int*)col->donnees[col->index[j]]>*(unsigned int*)col->donnees[*(int*)k])))){
+                        while ((j>=0)&&((col->donnees[col->index[j]]==NULL&&col->donnees[k]!=NULL)||(col->donnees[col->index[j]]!=NULL&&col->donnees[k]!=NULL&&(*(unsigned int*)col->donnees[col->index[j]]>*(unsigned int*)col->donnees[k])))){  //longues conditions pour mettre l'index des valeurs NULL à la fin
                             col->index[j+1]= col->index[j];
                             j--;
                         }
-                        col->index[j+1]=*(int*)k;
-                    }free(k);
+                        col->index[j+1]=k;
+                    }
                     break;
                 case CHAR:
-                    k=(int*)malloc(sizeof(int));
                     for(i=1;i<n;i++){
-                        *(int*)k=col->index[i];
+                        k=col->index[i];
                         j=i-1;
-                        while ((j>=0)&&((col->donnees[col->index[j]]==NULL&&col->donnees[*(int*)k]!=NULL)||(col->donnees[col->index[j]]!=NULL&&col->donnees[*(int*)k]!=NULL&&(*(char*)col->donnees[col->index[j]]>*(char*)col->donnees[*(int*)k])))){
+                        while ((j>=0)&&((col->donnees[col->index[j]]==NULL&&col->donnees[k]!=NULL)||(col->donnees[col->index[j]]!=NULL&&col->donnees[k]!=NULL&&(*(char*)col->donnees[col->index[j]]>*(char*)col->donnees[k])))){  //longues conditions pour mettre l'index des valeurs NULL à la fin
                             col->index[j+1]= col->index[j];
                             j--;
                         }
-                        col->index[j+1]=*(int*)k;
-                    }free(k);
+                        col->index[j+1]=k;
+                    }
                     break;
                 case STRING:
-                    k=(int*)malloc(sizeof(int));
                     for(i=1;i<n;i++){
-                        *(int*)k=col->index[i];
+                        k=col->index[i];
                         j=i-1;
-                        while ((j>=0)&&((col->donnees[col->index[j]]==NULL&&col->donnees[*(int*)k]!=NULL)||(col->donnees[col->index[j]]!=NULL&&col->donnees[*(int*)k]!=NULL&&(strcmp((char*)col->donnees[col->index[j]],(char*)col->donnees[*(int*)k])>0)))){
+                        while ((j>=0)&&((col->donnees[col->index[j]]==NULL&&col->donnees[k]!=NULL)||(col->donnees[col->index[j]]!=NULL&&col->donnees[k]!=NULL&&(strcmp((char*)col->donnees[col->index[j]],(char*)col->donnees[k])>0)))){   //longues conditions pour mettre l'index des valeurs NULL à la fin
                                 col->index[j+1]= col->index[j];
                                 j--;
                         }
-                        col->index[j+1]=*(int*)k;
-                    }free(k);
+                        col->index[j+1]=k;
+                    }
                     break;
                 case STRUCTURE:
                     break;
@@ -105,79 +104,70 @@ void tri_insertion(COLONNE* col){
                 case NULLVAL:
                     break;
                 case INT:
-                    k=(int*)malloc(sizeof(int));
                     for(i=1;i<n;i++){
-                        *(int*)k=col->index[i];
+                        k=col->index[i];
                         j=i-1;
-                        while ((j>=0)&&((col->donnees[col->index[j]]==NULL&&col->donnees[*(int*)k]!=NULL)||(col->donnees[col->index[j]]!=NULL&&col->donnees[*(int*)k]!=NULL&&(*(int*)col->donnees[col->index[j]]<*(int*)col->donnees[*(int*)k])))){
+                        while ((j>=0)&&((col->donnees[col->index[j]]==NULL&&col->donnees[k]!=NULL)||(col->donnees[col->index[j]]!=NULL&&col->donnees[k]!=NULL&&(*(int*)col->donnees[col->index[j]]<*(int*)col->donnees[k])))){  //longues conditions pour mettre l'index des valeurs NULL à la fin
                             col->index[j+1]=col->index[j];
                             j--;
                         }
-                        col->index[j+1]=*(int*)k;
+                        col->index[j+1]=k;
                     }
-                    free(k);
                     break;
                 case DOUBLE:
-                    k=(int*)malloc(sizeof(int));
                     for(i=1;i<n;i++){
-                        *(int*)k=col->index[i];
+                        k=col->index[i];
                         j=i-1;
-                        while ((j>=0)&&((col->donnees[col->index[j]]==NULL&&col->donnees[*(int*)k]!=NULL)||(col->donnees[col->index[j]]!=NULL&&col->donnees[*(int*)k]!=NULL&&(*(double*)col->donnees[col->index[j]]<*(double*)col->donnees[*(int*)k])))){
+                        while ((j>=0)&&((col->donnees[col->index[j]]==NULL&&col->donnees[k]!=NULL)||(col->donnees[col->index[j]]!=NULL&&col->donnees[k]!=NULL&&(*(double*)col->donnees[col->index[j]]<*(double*)col->donnees[k])))){ //longues conditions pour mettre l'index des valeurs NULL à la fin
                             col->index[j+1]= col->index[j];
                             j--;
                         }
-                        col->index[j+1]=*(int*)k;
+                        col->index[j+1]=k;
                     }
-                    free(k);
                     break;
                 case FLOAT:
-                    k=(int*)malloc(sizeof(int));
                     for(i=1;i<n;i++){
-                        *(int*)k=col->index[i];
+                        k=col->index[i];
                         j=i-1;
-                        while ((j>=0)&&((col->donnees[col->index[j]]==NULL&&col->donnees[*(int*)k]!=NULL)||(col->donnees[col->index[j]]!=NULL&&col->donnees[*(int*)k]!=NULL&&(*(float*)col->donnees[col->index[j]]<*(float*)col->donnees[*(int*)k])))){
+                        while ((j>=0)&&((col->donnees[col->index[j]]==NULL&&col->donnees[k]!=NULL)||(col->donnees[col->index[j]]!=NULL&&col->donnees[k]!=NULL&&(*(float*)col->donnees[col->index[j]]<*(float*)col->donnees[k])))){  //longues conditions pour mettre l'index des valeurs NULL à la fin
                             col->index[j+1]= col->index[j];
                             j--;
                         }
-                        col->index[j+1]=*(int*)k;
+                        col->index[j+1]=k;
                     }
-                    free(k);
                     break;
                 case UINT:
-                    k=(int*)malloc(sizeof(int));
                     for(i=1;i<n;i++){
-                        *(int*)k=col->index[i];
+                        k=col->index[i];
                         j=i-1;
-                        while ((j>=0)&&((col->donnees[col->index[j]]==NULL&&col->donnees[*(int*)k]!=NULL)||(col->donnees[col->index[j]]!=NULL&&col->donnees[*(int*)k]!=NULL&&(*(unsigned int*)col->donnees[col->index[j]]<*(unsigned int*)col->donnees[*(int*)k])))){
+                        while ((j>=0)&&((col->donnees[col->index[j]]==NULL&&col->donnees[k]!=NULL)||(col->donnees[col->index[j]]!=NULL&&col->donnees[k]!=NULL&&(*(unsigned int*)col->donnees[col->index[j]]<*(unsigned int*)col->donnees[k])))){  //longues conditions pour mettre l'index des valeurs NULL à la fin
                             col->index[j+1]= col->index[j];
                             j--;
                         }
-                        col->index[j+1]=*(int*)k;
-                    }free(k);
+                        col->index[j+1]=k;
+                    }
                     break;
                 case CHAR:
-                    k=(int*)malloc(sizeof(int));
                     for(i=1;i<n;i++){
-                        *(int*)k=col->index[i];
+                        k=col->index[i];
                         j=i-1;
-                        while ((j>=0)&&((col->donnees[col->index[j]]==NULL&&col->donnees[*(int*)k]!=NULL)||(col->donnees[col->index[j]]!=NULL&&col->donnees[*(int*)k]!=NULL&&(*(int*)col->donnees[col->index[j]]<*(int*)col->donnees[*(int*)k])))){
+                        while ((j>=0)&&((col->donnees[col->index[j]]==NULL&&col->donnees[k]!=NULL)||(col->donnees[col->index[j]]!=NULL&&col->donnees[k]!=NULL&&(*(int*)col->donnees[col->index[j]]<*(int*)col->donnees[k])))){  //longues conditions pour mettre l'index des valeurs NULL à la fin
                             col->index[j+1]= col->index[j];
                             j--;
                         }
-                        col->index[j+1]=*(int*)k;
-                    }free(k);
+                        col->index[j+1]=k;
+                    }
                     break;
                 case STRING:
-                    k=(int*)malloc(sizeof(int));
                     for(i=1;i<n;i++){
-                        *(int*)k=col->index[i];
+                        k=col->index[i];
                         j=i-1;
-                        while ((j>=0)&&((col->donnees[col->index[j]]==NULL&&col->donnees[*(int*)k]!=NULL)||(col->donnees[col->index[j]]!=NULL&&col->donnees[*(int*)k]!=NULL&&(strcmp((char*)col->donnees[col->index[j]],(char*)col->donnees[*(int*)k])<0)))){
+                        while ((j>=0)&&((col->donnees[col->index[j]]==NULL&&col->donnees[k]!=NULL)||(col->donnees[col->index[j]]!=NULL&&col->donnees[k]!=NULL&&(strcmp((char*)col->donnees[col->index[j]],(char*)col->donnees[k])<0)))){  //longues conditions pour mettre l'index des valeurs NULL à la fin
                             col->index[j+1]= col->index[j];
                             j--;
                         }
-                        col->index[j+1]=*(int*)k;
-                    }free(k);
+                        col->index[j+1]=k;
+                    }
                     break;
                 case STRUCTURE:
                     break;
@@ -193,11 +183,11 @@ void swap(int *a, int *b) {
 void tri_quicksort(COLONNE* col) {
     int l = 0;
     int h = col->tlog - 1;
-    if (col->sort_dir==0){
-        quickSort(col, l, h);
+    if (col->tri_dir==0){
+        quickSort(col, l, h);  //appel la fonction quicksort croissant
     }
     else{
-        quickSort2(col,l,h);
+        quickSort2(col,l,h);   //appel la fonction quicksort décroissant
     }
 }
 void quickSort(COLONNE* col, int l, int h) {
@@ -214,7 +204,7 @@ int partition(COLONNE* col, int l, int h) {
         case INT:
             for (int j = l; j <= h - 1; j++) {
                 if ((col->donnees[col->index[j]] != NULL && pivot == NULL) ||
-                    (col->donnees[col->index[j]] != NULL && pivot != NULL && (*(int*)col->donnees[col->index[j]]< *(int*)col->donnees[col->index[h]]))) {
+                    (col->donnees[col->index[j]] != NULL && pivot != NULL && (*(int*)col->donnees[col->index[j]]< *(int*)col->donnees[col->index[h]]))) {  //longues conditions pour mettre l'index des valeurs NULL à la fin
                     i++;
                     swap(&col->index[i], &col->index[j]);
                 }
@@ -224,7 +214,7 @@ int partition(COLONNE* col, int l, int h) {
         case DOUBLE:
             for (int j = l; j <= h - 1; j++) {
                 if ((col->donnees[col->index[j]] != NULL && pivot == NULL) ||
-                    (col->donnees[col->index[j]] != NULL && pivot != NULL && (*(double*)col->donnees[col->index[j]]< *(double*)col->donnees[col->index[h]]))) {
+                    (col->donnees[col->index[j]] != NULL && pivot != NULL && (*(double*)col->donnees[col->index[j]]< *(double*)col->donnees[col->index[h]]))) {  //longues conditions pour mettre l'index des valeurs NULL à la fin
                     i++;
                     swap(&col->index[i], &col->index[j]);
                 }
@@ -234,7 +224,7 @@ int partition(COLONNE* col, int l, int h) {
         case FLOAT:
             for (int j = l; j <= h - 1; j++) {
                 if ((col->donnees[col->index[j]] != NULL && pivot == NULL) ||
-                    (col->donnees[col->index[j]] != NULL && pivot != NULL && (*(float*)col->donnees[col->index[j]]< *(float*)col->donnees[col->index[h]]))) {
+                    (col->donnees[col->index[j]] != NULL && pivot != NULL && (*(float*)col->donnees[col->index[j]]< *(float*)col->donnees[col->index[h]]))) {  //longues conditions pour mettre l'index des valeurs NULL à la fin
                     i++;
                     swap(&col->index[i], &col->index[j]);
                 }
@@ -244,7 +234,7 @@ int partition(COLONNE* col, int l, int h) {
         case UINT:
             for (int j = l; j <= h - 1; j++) {
                 if ((col->donnees[col->index[j]] != NULL && pivot == NULL) ||
-                    (col->donnees[col->index[j]] != NULL && pivot != NULL && (*(unsigned int*)col->donnees[col->index[j]]< *(unsigned int*)col->donnees[col->index[h]]))) {
+                    (col->donnees[col->index[j]] != NULL && pivot != NULL && (*(unsigned int*)col->donnees[col->index[j]]< *(unsigned int*)col->donnees[col->index[h]]))) {  //longues conditions pour mettre l'index des valeurs NULL à la fin
                     i++;
                     swap(&col->index[i], &col->index[j]);
                 }
@@ -254,7 +244,7 @@ int partition(COLONNE* col, int l, int h) {
         case CHAR:
             for (int j = l; j <= h - 1; j++) {
                 if ((col->donnees[col->index[j]] != NULL && pivot == NULL) ||
-                    (col->donnees[col->index[j]] != NULL && pivot != NULL && (*(char*)col->donnees[col->index[j]]< *(char*)col->donnees[col->index[h]]))) {
+                    (col->donnees[col->index[j]] != NULL && pivot != NULL && (*(char*)col->donnees[col->index[j]]< *(char*)col->donnees[col->index[h]]))) {   //longues conditions pour mettre l'index des valeurs NULL à la fin
                     i++;
                     swap(&col->index[i], &col->index[j]);
                 }
@@ -266,7 +256,7 @@ int partition(COLONNE* col, int l, int h) {
         case STRING:
             for (int j = l; j <= h - 1; j++) {
                 if ((col->donnees[col->index[j]] != NULL && pivot == NULL) ||
-                    (col->donnees[col->index[j]] != NULL && pivot != NULL && strcmp((char*)col->donnees[col->index[j]], (char*)pivot) <= 0)) {
+                    (col->donnees[col->index[j]] != NULL && pivot != NULL && strcmp((char*)col->donnees[col->index[j]], (char*)pivot) <= 0)) {   //longues conditions pour mettre l'index des valeurs NULL à la fin
                     i++;
                     swap(&col->index[i], &col->index[j]);
                 }
@@ -292,7 +282,7 @@ int partition2(COLONNE* col, int l, int h) {
         case INT:
             for (int j = l; j <= h - 1; j++) {
                 if ((col->donnees[col->index[j]] != NULL && pivot == NULL) ||
-                    (col->donnees[col->index[j]] != NULL && pivot != NULL && (*(int*)col->donnees[col->index[j]]> *(int*)col->donnees[col->index[h]]))) {
+                    (col->donnees[col->index[j]] != NULL && pivot != NULL && (*(int*)col->donnees[col->index[j]]> *(int*)col->donnees[col->index[h]]))) { //longues conditions pour mettre l'index des valeurs NULL à la fin
                     i++;
                     swap(&col->index[i], &col->index[j]);
                 }
@@ -302,7 +292,7 @@ int partition2(COLONNE* col, int l, int h) {
         case DOUBLE:
             for (int j = l; j <= h - 1; j++) {
                 if ((col->donnees[col->index[j]] != NULL && pivot == NULL) ||
-                    (col->donnees[col->index[j]] != NULL && pivot != NULL && (*(double*)col->donnees[col->index[j]]> *(double*)col->donnees[col->index[h]]))) {
+                    (col->donnees[col->index[j]] != NULL && pivot != NULL && (*(double*)col->donnees[col->index[j]]> *(double*)col->donnees[col->index[h]]))) {//longues conditions pour mettre l'index des valeurs NULL à la fin
                     i++;
                     swap(&col->index[i], &col->index[j]);
                 }
@@ -312,7 +302,7 @@ int partition2(COLONNE* col, int l, int h) {
         case FLOAT:
             for (int j = l; j <= h - 1; j++) {
                 if ((col->donnees[col->index[j]] != NULL && pivot == NULL) ||
-                    (col->donnees[col->index[j]] != NULL && pivot != NULL && (*(float*)col->donnees[col->index[j]]> *(float*)col->donnees[col->index[h]]))) {
+                    (col->donnees[col->index[j]] != NULL && pivot != NULL && (*(float*)col->donnees[col->index[j]]> *(float*)col->donnees[col->index[h]]))) {//longues conditions pour mettre l'index des valeurs NULL à la fin
                     i++;
                     swap(&col->index[i], &col->index[j]);
                 }
@@ -322,7 +312,7 @@ int partition2(COLONNE* col, int l, int h) {
         case UINT:
             for (int j = l; j <= h - 1; j++) {
                 if ((col->donnees[col->index[j]] != NULL && pivot == NULL) ||
-                    (col->donnees[col->index[j]] != NULL && pivot != NULL && (*(unsigned int*)col->donnees[col->index[j]]> *(unsigned int*)col->donnees[col->index[h]]))) {
+                    (col->donnees[col->index[j]] != NULL && pivot != NULL && (*(unsigned int*)col->donnees[col->index[j]]> *(unsigned int*)col->donnees[col->index[h]]))) {//longues conditions pour mettre l'index des valeurs NULL à la fin
                     i++;
                     swap(&col->index[i], &col->index[j]);
                 }
@@ -332,7 +322,7 @@ int partition2(COLONNE* col, int l, int h) {
         case CHAR:
             for (int j = l; j <= h - 1; j++) {
                 if ((col->donnees[col->index[j]] != NULL && pivot == NULL) ||
-                    (col->donnees[col->index[j]] != NULL && pivot != NULL && (*(char*)col->donnees[col->index[j]]> *(char*)col->donnees[col->index[h]]))) {
+                    (col->donnees[col->index[j]] != NULL && pivot != NULL && (*(char*)col->donnees[col->index[j]]> *(char*)col->donnees[col->index[h]]))) {//longues conditions pour mettre l'index des valeurs NULL à la fin
                     i++;
                     swap(&col->index[i], &col->index[j]);
                 }
@@ -344,7 +334,7 @@ int partition2(COLONNE* col, int l, int h) {
         case STRING:
             for (int j = l; j <= h - 1; j++) {
                 if ((col->donnees[col->index[j]] != NULL && pivot == NULL) ||
-                    (col->donnees[col->index[j]] != NULL && pivot != NULL && strcmp((char*)col->donnees[col->index[j]], (char*)pivot) >= 0)) {
+                    (col->donnees[col->index[j]] != NULL && pivot != NULL && strcmp((char*)col->donnees[col->index[j]], (char*)pivot) >= 0)) {//longues conditions pour mettre l'index des valeurs NULL à la fin
                     i++;
                     swap(&col->index[i], &col->index[j]);
                 }
