@@ -16,4 +16,4 @@ add_executable(Projet_C
         sort.c
         main.c
         colonne.c
-test.csv)
+        étudiants.csv)

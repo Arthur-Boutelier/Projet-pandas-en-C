@@ -615,3 +615,46 @@ int chercher_val_col_dicho(COLONNE *col, void *val){
 void actualiser_index(COLONNE* col) {
     tri(col, col->tri_dir);
 }
+void* somme_col(COLONNE* col){
+    void* somme= malloc(64);
+    switch (col->type) {
+        case INT:
+            for (int i=0;i<col->tlog;i++){
+                *(int*)somme+=*(int*)col->donnees[i];
+            }
+            break;
+        case FLOAT:
+            for (int i=0;i<col->tlog;i++){
+                *(float*)(somme)+=*(float*)col->donnees[i];
+            }
+            break;
+        case DOUBLE:
+            for (int i=0;i<col->tlog;i++){
+                *(double*)somme+=*(double*)col->donnees[i];
+            }
+            break;
+        case UINT:
+            for (int i=0;i<col->tlog;i++){
+                *(unsigned int*)somme+=*(unsigned int*)col->donnees[i];
+            }
+            break;
+        case STRING:
+            free(somme);
+            somme=NULL;
+            break;
+        case CHAR:
+            free(somme);
+            somme=NULL;
+            break;
+        case STRUCTURE:
+            free(somme);
+            somme=NULL;
+            break;
+        case NULLVAL:
+            free(somme);
+            somme=NULL;
+            break;
+
+    }
+    return somme;
+}
