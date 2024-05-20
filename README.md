@@ -15,3 +15,19 @@ Nous avons choisi de réaliser le projet CDataframe avec les consignes les moins
 
 
 L'utilisateur pourra entre autre créer un dataframe, le remplir, le modifier, le supprimer, l’afficher, le trier ou encore récupérer des informations sur son contenues.
+
+Les différents programmes sont les suivants : 
+
+main.c :
+   * CDATAFRAME by Paul Lesage, Victor Proffit et Arthur Boutelier
+   * Ce fichier est celui a lancer pour faire fonctionner le programme. C'est le coeur de ce dernier dans lequel vous pouvez
+   * utiliser toutes les fonctions
+
+colonne.c : 
+  CDATAFRAME by Paul Lesage, Victor Proffit et Arthur Boutelier
+  Ce fichier comporte toutes les fonctions permettant de gérer les colonnes
+
+sort.c : 
+  CDATAFRAME by Paul Lesage, Victor Proffit et Arthur Boutelier
+  Ce fichier comporte toutes les fonctions permettant de gérer le tri des colonnes
+pour la fonctionnalité lié aux csv, il faut bien faire attention de prendre le chemin absolue vers le fichiers et non pas le chemin relatif
