@@ -147,5 +147,10 @@ void create_index(COLONNE* col);
 void print_index(COLONNE * col);
 int check_index(COLONNE *col);
 int search_value_in_column(COLONNE *col, void *val);
+/*
+ * Cette fonction permet de rehercher si une valeur est dans une colonne ayant été trié
+ * Entrée : col : COLONNE*, pointeur visant la colonne, val : pointeur visant la valeur à rechercher
+ * Sortie : -1 si la colonne n'est pas trié, 0 si la valeur n'est pas dans la colonne, 1 si elle set présente
+ */
 
 #endif

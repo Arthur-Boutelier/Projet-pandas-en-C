@@ -14,7 +14,7 @@ int main()
     int a=9,b=10,c=15;
 
     void* u = NULL;
-    COLONNE * A= create_column(INT,"caca");
+    COLONNE * A= create_column(INT,"colonne1");
     printf("%s\n",A->titre);
     inserer_valeur(A,NULL);
     inserer_valeur(A,&b);
@@ -26,7 +26,6 @@ int main()
     sort(A,DESC);
     print_col_index(A);
     inserer_valeur(A,&a);
-
     printf("\n");
     print_col_index(A);
     sort(A,DESC);
