@@ -2,7 +2,7 @@
 
 Notre Equipe : Arthur BOUTELIER
 Victor PROFFIT
-Paul Lesage
+Paul LESAGE
 
 Lien du dépôt Git : https://github.com/Arthur-Boutelier/Projet-C
 
