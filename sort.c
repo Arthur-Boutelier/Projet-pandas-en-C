@@ -1,3 +1,7 @@
+/*
+ * CDATAFRAME by Paul Lesage, Victor Proffit et Arthur Boutelier
+ * Ce fichier comporte toutes les fonctions permettant de gérer le tri des colonnes
+ */
 #include "sort.h"
 #include <stdlib.h>
 #include <stdio.h>

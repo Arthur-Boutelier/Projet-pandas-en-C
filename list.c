@@ -1,3 +1,7 @@
+/*
+ * CDATAFRAME by Paul Lesage, Victor Proffit et Arthur Boutelier
+ * Ce fichier comporte toutes les fonctions permettant de gérer les listes doublement chainé
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

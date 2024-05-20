@@ -1,3 +1,8 @@
+/*
+ * CDATAFRAME by Paul Lesage, Victor Proffit et Arthur Boutelier
+ * Ce fichier comporte toutes les fonctions permettant de gérer les dataframes
+ */
+
 #include "cdataframe.h"
 #include <stdlib.h>
 #include <stdio.h>

@@ -1,3 +1,8 @@
+/*
+ * CDATAFRAME by Paul Lesage, Victor Proffit et Arthur Boutelier
+ * Ce fichier est celui a lancer pour faire fonctionner le programme. C'est le coeur de ce dernier dans lequel vous pouvez
+ * utiliser toutes les fonctions
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include "cdataframe.h"
