@@ -514,10 +514,11 @@ int chercher_val_col_dicho(COLONNE *col, void *val){
         else{
             int a = 0; //initialisation des variables de la dichotomie
             int b = col->tlog - 1;
-            int m = (a + b) / 2; // m étant le milieu des indices de la colonne
+            int m; // m étant le milieu des indices de la colonne
             switch (col->type) { //switch case pour résoudre le problème avec chaque type
                 case INT: //cas pour le type int
                     while (a < b){ //tant que le debut n'aura pas rejoint la fin
+                        m = (a + b) / 2;
                         if (*(int *) col->donnees[col->index[m]] == *((int *) val)){ //on regarde si le milieu n'est pas la valeur recherché
                             return 1;
                         }
@@ -534,6 +535,7 @@ int chercher_val_col_dicho(COLONNE *col, void *val){
 
                 case CHAR://cas pour le type char
                     while (a < b){//cas pour le type int
+                        m = (a + b) / 2;
                         if (*(char *) col->donnees[col->index[m]] == *((char *) val)){//on regarde si le milieu n'est pas la valeur recherché
                             return 1;
                         }
@@ -549,6 +551,7 @@ int chercher_val_col_dicho(COLONNE *col, void *val){
                     break;
                 case FLOAT://cas pour le type float
                     while (a < b){//cas pour le type int
+                        m = (a + b) / 2;
                         if (*(float *) col->donnees[col->index[m]] == *((float *) val)){//on regarde si le milieu n'est pas la valeur recherché
                             return 1;
                         }
@@ -564,6 +567,7 @@ int chercher_val_col_dicho(COLONNE *col, void *val){
                     break;
                 case DOUBLE://cas pour le type double
                     while (a < b){//cas pour le type int
+                        m = (a + b) / 2;
                         if (*(double *) col->donnees[col->index[m]] == *((double *) val)){//on regarde si le milieu n'est pas la valeur recherché
                             return 1;
                         }
@@ -579,6 +583,7 @@ int chercher_val_col_dicho(COLONNE *col, void *val){
                     break;
                 case UINT://cas pour le type unit
                     while (a < b){//cas pour le type int
+                        m = (a + b) / 2;
                         if (*(unsigned int *) col->donnees[col->index[m]] == *((unsigned int *) val)){//on regarde si le milieu n'est pas la valeur recherché
                             return 1;
                         }
@@ -594,6 +599,7 @@ int chercher_val_col_dicho(COLONNE *col, void *val){
                     break;
                 case STRING://cas pour le type string
                     while (a < b){//cas pour le type int
+                        m = (a + b) / 2;
                         if(!strcmp((char*)val, (char*)col->donnees[m])){//on regarde si le milieu n'est pas la valeur recherché
                             return 1; //la fonction strcmp sert à comparé dans l'ordre lexicographique les deux valeurs
                         }
